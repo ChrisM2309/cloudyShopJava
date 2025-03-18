@@ -374,7 +374,10 @@ public class Main {
             switch (opcion) {
                 case "1": // Consultar productos del catálogo
                     List<Producto> productos = empleado.consultarProductosCatalogo(catalogo);
-                    System.out.println("Catálogo: " + productos);
+                    System.out.println("Catálogo: ");
+                    for (Producto p : productos){
+                        System.out.println(p);
+                    }
                     break;
     
                 case "2": // Agregar producto al catálogo

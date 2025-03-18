@@ -62,28 +62,35 @@ public class Cliente {
 
 
     // Metodos
+
+    // Verifica las credenciales del cliente para iniciar sesión
     public boolean iniciarSesion(String usuario, String password) {
         return this.usuario.equals(usuario) && this.password.equals(password);
     }
 
+    // Cierra la sesión del cliente y muestra un mensaje
     public void cerrarSesion() {
         System.out.println("Sesión cerrada para " + usuario);
     }
 
+    // Actualiza los datos personales del cliente
     public void editarDatos(String nuevoNombre, String nuevoCorreo, String nuevoTelefono) {
         this.nombre = nuevoNombre;
         this.correo = nuevoCorreo;
         this.telefono = nuevoTelefono;
     }
 
+    // Elimina la cuenta del cliente de la lista proporcionada
     public void eliminarCuenta(ArrayList<Cliente> clientes) {
         clientes.remove(this);
     }
 
+    // Devuelve la lista completa de pedidos pasados del cliente
     public ArrayList<Pedido> consultarPedidosPasados() {
         return this.pedidos;
     }
 
+    // Filtra y devuelve los pedidos completados del cliente
     public ArrayList<Pedido> consultarHistorialCompras() {
         ArrayList<Pedido> historial = new ArrayList<>();
         for (Pedido p : pedidos){
@@ -92,6 +99,7 @@ public class Cliente {
         return historial;
     }
 
+    // Devuelve una lista de productos disponibles (con inventario mayor a 0)
     public ArrayList<Producto> verProductos(ArrayList<Producto> catalogo) {
         // Implementar lógica para obtener productos disponibles
         ArrayList<Producto> disponible = new ArrayList<>();
@@ -103,6 +111,7 @@ public class Cliente {
         return disponible;
     }
 
+    // Agrega un producto a un pedido existente y actualiza el inventario
     public void agregarProductoPedido(int idProducto, int cantidad, int idPedido, List<Producto> catalogo) {
         for (Pedido p : pedidos) {
             if (p.getId() == idPedido) {

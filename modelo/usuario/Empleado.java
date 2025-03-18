@@ -43,25 +43,32 @@ public class Empleado {
     public String getContraseña() { return contraseña; }
     public void setContraseña(String contraseña) { this.contraseña = contraseña; }
 
+    // Verifica las credenciales del empleado para iniciar sesión
     public boolean iniciarSesion(String usuario, String contraseña) {
         return (this.usuario.equals(usuario) && this.contraseña.equals(contraseña));
     }
+
+    // Cierra la sesión del empleado y muestra un mensaje
     public void cerrarSesion() {
         System.out.println("Sesion cerrada para " + usuario);
     }
 
+    // Devuelve la lista completa del catálogo de productos
     public ArrayList<Producto> consultarProductosCatalogo(ArrayList<Producto> catalogo) {
         return catalogo;
     }
 
+    // Añade un producto al catálogo
     public void agregarProductoCatalogo(Producto producto, ArrayList<Producto> catalogo) {
         catalogo.add(producto);
     }
 
+    // Elimina un producto del catálogo por su ID
     public void eliminarProductoCatalogo(int idProducto, ArrayList<Producto> catalogo) {
         catalogo.removeIf(p -> p.getId() == idProducto);
     }
 
+    // Edita la información de un producto en el catálogo
     public void editarProductoCatalogo(int idProducto, ArrayList<Producto> catalogo, String nuevoNombre, String nuevaDescripcion, double nuevoPrecio, int nuevoInventario) {
         for (Producto p : catalogo) {
             if (p.getId() == idProducto) {
@@ -73,6 +80,7 @@ public class Empleado {
         }
     }
 
+    // Asocia una etiqueta a un producto en el catálogo
     public void agregarEtiquetaProducto(int idProducto, Etiqueta etiqueta, ArrayList<Producto> catalogo) {
         for (Producto p : catalogo) {
             if (p.getId() == idProducto) {
@@ -81,6 +89,7 @@ public class Empleado {
         }
     }
 
+    // Elimina una etiqueta de un producto en el catálogo
     public void eliminarEtiquetaProducto(int idProducto, Etiqueta etiqueta, ArrayList<Producto> catalogo) {
         for (Producto p : catalogo) {
             if (p.getId() == idProducto) {
@@ -89,6 +98,7 @@ public class Empleado {
         }
     }
 
+    // Consulta el inventario de un producto específico
     public int consultarInventarioProducto(int idProducto, ArrayList<Producto> catalogo) {
         for (Producto p : catalogo) {
             if (p.getId() == idProducto) {
@@ -98,6 +108,7 @@ public class Empleado {
         return -1;
     }
 
+    // Registra una entrada de inventario para un producto
     public void registrarEntradaInventario(int idProducto, int cantidad, ArrayList<Producto> catalogo) {
         for (Producto p : catalogo) {
             if (p.getId() == idProducto) {
@@ -106,6 +117,7 @@ public class Empleado {
         }
     }
 
+    // Devuelve una lista de productos con inventario bajo (menos de 5 unidades)
     public ArrayList<Producto> recibirAlertasInventarioBajo(ArrayList<Producto> catalogo) {
         ArrayList<Producto> alertas = new ArrayList<>();
         for (Producto p : catalogo) {
@@ -116,6 +128,7 @@ public class Empleado {
         return alertas;
     }
 
+    // Actualiza el estado de un pedido específico
     public void actualizarEstadoPedido(int idPedido, String nuevoEstado, ArrayList<Pedido> pedidos) {
         for (Pedido p : pedidos) {
             if (p.getId() == idPedido) {
@@ -124,6 +137,7 @@ public class Empleado {
         }
     }
 
+    // Cancela un pedido cambiando su estado a "Cancelado"
     public void cancelarPedido(int idPedido, ArrayList<Pedido> pedidos) {
         for (Pedido p : pedidos) {
             if (p.getId() == idPedido) {
@@ -132,6 +146,7 @@ public class Empleado {
         }
     }
 
+    // Devuelve una lista de pedidos con estado "Pendiente"
     public ArrayList<Pedido> verPedidosPendientes(ArrayList<Pedido> pedidos) {
         ArrayList<Pedido> pendientes = new ArrayList<>();
         for (Pedido p : pedidos) {
@@ -142,6 +157,7 @@ public class Empleado {
         return pendientes;
     }
 
+    // Verifica si un pedido ha sido completado
     public boolean verificarEstadoPago(int idPago, ArrayList<Pedido> pedidos) {
         for (Pedido p : pedidos) {
             if (p.getId() == idPago) {
@@ -151,6 +167,7 @@ public class Empleado {
         return false;
     }
 
+    // Consulta la dirección asociada a un pedido específico
     public Direccion consultarDireccionPedido(int idPedido, ArrayList<Pedido> pedidos) {
         for (Pedido p : pedidos) {
             if (p.getId() == idPedido) {
@@ -160,6 +177,7 @@ public class Empleado {
         return null;
     }
 
+    // Sobrescribe el método toString para representar al empleado como cadena
     @Override
     public String toString() {
         return "Id:" + id + ", Nombre:'" + nombre + "', Usuario:'" + usuario;
