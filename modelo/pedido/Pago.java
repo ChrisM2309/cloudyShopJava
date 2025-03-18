@@ -25,6 +25,6 @@ public class Pago {
 
     @Override
     public String toString() {
-        return "Pago{id=" + id + ", tipo='" + tipo + "', estado='" + estado + "'}";
+        return "Id:" + id + ", Tipo:'" + tipo + "', Estado:'" + estado + "'}";
     }
 }
