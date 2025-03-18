@@ -1,7 +1,6 @@
 package modelo.usuario;
 
 import modelo.pedido.Direccion;
-import modelo.pedido.Pago;
 import modelo.pedido.Pedido;
 import modelo.producto.Etiqueta;
 import modelo.producto.Producto;
@@ -48,7 +47,6 @@ public class Empleado {
         return (this.usuario.equals(usuario) && this.contraseña.equals(contraseña));
     }
     public void cerrarSesion() {
-        // pendiente de mas
         System.out.println("Sesion cerrada para " + usuario);
     }
 
@@ -137,17 +135,17 @@ public class Empleado {
     public ArrayList<Pedido> verPedidosPendientes(ArrayList<Pedido> pedidos) {
         ArrayList<Pedido> pendientes = new ArrayList<>();
         for (Pedido p : pedidos) {
-            if ("Pendiente".equals(p.getEstado())) {
+            if ("Pendiente".equalsIgnoreCase(p.getEstado())) {
                 pendientes.add(p);
             }
         }
         return pendientes;
     }
 
-    public boolean verificarEstadoPago(int idPago, ArrayList<Pago> pagos) {
-        for (Pago p : pagos) {
+    public boolean verificarEstadoPago(int idPago, ArrayList<Pedido> pedidos) {
+        for (Pedido p : pedidos) {
             if (p.getId() == idPago) {
-                return "Completado".equals(p.getEstado());
+                return "Completado".equalsIgnoreCase(p.getEstado());
             }
         }
         return false;

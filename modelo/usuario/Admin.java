@@ -1,7 +1,6 @@
 package modelo.usuario;
 
 import modelo.pedido.Direccion;
-import modelo.pedido.Pago;
 import modelo.pedido.Pedido;
 import modelo.producto.Etiqueta;
 import modelo.producto.Producto;
@@ -40,7 +39,6 @@ public class Admin extends Empleado {
     }
 
     public void editarInformacionEmpleado(int idEmpleado, ArrayList<Empleado> empleados, String nuevoNombre, String nuevoUsuario, String nuevoPassword) {
-        // Actualiza datos de un empleado
         for (Empleado e : empleados){
             if (e.getId() == idEmpleado){
                 e.setNombre(nuevoNombre);
@@ -53,17 +51,17 @@ public class Admin extends Empleado {
         return pedidos.size();
     }
 
-    public List<Pago> consultarPagosRealizados(List<Pago> pagos) {
-        List<Pago> realizados = new ArrayList<>();
-        for (Pago p : pagos) {
-            if ("Completado".equals(p.getEstado())) {
+    public List<Pedido> consultarPagosRealizados(List<Pedido> pagos) {
+        List<Pedido> realizados = new ArrayList<>();
+        for (Pedido p : pagos) {
+            if ("Completado".equalsIgnoreCase(p.getEstado())) {
                 realizados.add(p);
             }
         }
         return realizados;
     }
 
-    public Direccion agregarPuntoEntrega(String calle, String ciudad, String codigoPostal, List<Direccion> puntosEntrega) {
+    public Direccion agregarPuntoEntrega(String calle, String ciudad, List<Direccion> puntosEntrega) {
         int nuevoId = puntosEntrega.size() + 1;
         Direccion punto = new Direccion(nuevoId, calle, ciudad, true);
         puntosEntrega.add(punto);
