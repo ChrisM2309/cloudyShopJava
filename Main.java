@@ -17,11 +17,8 @@ public class Main {
     private static ArrayList<Cliente> clientes = new ArrayList<>();
     private static ArrayList<Producto> catalogo = new ArrayList<>();
     private static ArrayList<Pedido> pedidos = new ArrayList<>();
-    private static ArrayList<Direccion> direcciones = new ArrayList<>();
-    private static ArrayList<Pago> pagos = new ArrayList<>();
     private static ArrayList<Etiqueta> etiquetas = new ArrayList<>();
     private static ArrayList<Direccion> puntosEntrega = new ArrayList<>();
-    //private static String rolActual;
     private static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -67,12 +64,10 @@ public class Main {
         admins.add(new Admin(1, "Juan Admin", "admin1", "admin1@empresa.com", "admin123"));
 
         // Empleados
-        empleados.add(new Empleado(1, "Ana Empleado", "empleado1", "ana@empresa.com", "emp123"));
-        empleados.add(new Empleado(2, "Luis Empleado", "empleado2", "luis@empresa.com", "emp456"));
+        empleados.add(new Empleado(1, "Ana Lucia", "empleado1", "ana@empresa.com", "emp123"));
 
         // Clientes
-        clientes.add(new Cliente(1, "María Cliente", "cliente1", "maria@cliente.com", "cli123", "555-1234"));
-        clientes.add(new Cliente(2, "Pedro Cliente", "cliente2", "pedro@cliente.com", "cli456", "555-5678"));
+        clientes.add(new Cliente(1, "María Jose", "cliente1", "maria@cliente.com", "cli123", "555-1234"));
 
         // Etiquetas
         etiquetas.add(new Etiqueta(1, "Electrónica"));
@@ -80,28 +75,32 @@ public class Main {
 
         // Productos
         catalogo.add(new Producto(1, "Laptop", "Laptop de alta gama", 1000.0, 10));
-        catalogo.getLast().agregarEtiqueta(etiquetas.getLast());
+        catalogo.getLast().agregarEtiqueta(etiquetas.get(0));
 
         catalogo.add(new Producto(2, "Silla", "Silla ergonómica", 150.0, 20));
         catalogo.getLast().agregarEtiqueta(etiquetas.getLast());
 
         catalogo.add(new Producto(3, "Teléfono", "Smartphone moderno", 500.0, 15));
-        catalogo.getLast().agregarEtiqueta(etiquetas.getLast());
+        catalogo.getLast().agregarEtiqueta(etiquetas.get(0));
 
-        // Direcciones
-        direcciones.add(new Direccion(1, "Calle Falsa 123", "Ciudad A", false));
-        direcciones.add(new Direccion(2, "Avenida Real 456", "Ciudad B", false));
+        //Direcciones
+        clientes.get(0).agregarNuevaDireccion("Calle 123", "San Salvador");
 
+        //Pagos
+        Pago pago1 = new Pago(clientes.get(0).getMetodosPago().size()+1, "Tarjeta", "123", "Activo");
+        clientes.get(0).agregarMetodoPagoSistema(pago1);
         // Puntos de Entrega
         puntosEntrega.add(new Direccion(1, "Punto Central", "Ciudad C", true));
 
-        // Pagos
-        pagos.add(new Pago(1, "Tarjeta", "1234-5678-9012-3456", "Completado"));
-
         // Pedidos
+        // Agregar dos pedidos, uno completado y otro pendiente 
+        clientes.get(0).crearPedido(pedidos);
         ArrayList<Producto> productosPedido = new ArrayList<>();
         productosPedido.add(catalogo.get(0)); // Laptop
-        pedidos.add(new Pedido(1, productosPedido, direcciones.get(0), pagos.get(0), "Pendiente", clientes.get(0).getId()));
+        productosPedido.add(catalogo.get(2)); /// Teléfono
+        clientes.get(0).agregarDireccionEntrega(1, 1);
+        clientes.get(0).agregarMetodoPago(1, 1);
+        //pedidos.add(new Pedido(1, productosPedido, direcciones.get(0), pagos.get(0), "Pendiente", clientes.get(0).getId()));
     }
 
     private static void manejarAdmin() {
@@ -285,8 +284,8 @@ public class Main {
                     System.out.println("Cantidad de pedidos: " + cantidadPedidos);
                     break;
 
-                case "8": // Consultar pagos realizados
-                    List<Pago> pagosRealizados = admin.consultarPagosRealizados(pagos);
+                case "8": // Consultar pagos realizados -- Pedidos Completados
+                    List<Pedido> pagosRealizados = admin.consultarPagosRealizados(pedidos);
                     System.out.println("Pagos realizados: " + pagosRealizados);
                     break;
 
@@ -387,7 +386,7 @@ public class Main {
     
                 case "3": // Eliminar producto del catálogo
                     for( Producto producto: catalogo){
-                        System.out.println(empleado);
+                        System.out.println(producto);
                     }
                     System.out.print("ID del producto a eliminar: ");
                     int idEliminar = Integer.parseInt(sc.nextLine());
@@ -432,7 +431,7 @@ public class Main {
     
                 case "6": // Eliminar etiqueta de producto
                     for( Producto producto: catalogo){
-                        System.out.println(empleado);
+                        System.out.println(producto);
                     }
                     System.out.print("ID del producto: ");
                     int idProdEliminarEtiqueta = Integer.parseInt(sc.nextLine());
@@ -495,7 +494,7 @@ public class Main {
                 case "13": // Verificar estado de pago
                     System.out.print("ID del pago: ");
                     int idPagoVerificar = Integer.parseInt(sc.nextLine());
-                    boolean pagoProcesado = empleado.verificarEstadoPago(idPagoVerificar, Main.pagos);
+                    boolean pagoProcesado = empleado.verificarEstadoPago(idPagoVerificar, Main.pedidos);
                     System.out.println("Estado del pago: " + (pagoProcesado ? "Procesado" : "No procesado"));
                     break;
     
@@ -579,9 +578,9 @@ public class Main {
                     String tipo = sc.nextLine();
                     System.out.print("Datos (e.g., número de tarjeta): ");
                     String datos = sc.nextLine();
-                    Pago nuevoPago = new Pago(pagos.size() + 1, tipo, datos, "Pendiente");
+                    Pago nuevoPago = new Pago(cliente.getMetodosPago().size() + 1, tipo, datos, "Activo");
                     cliente.agregarMetodoPagoSistema(nuevoPago);
-                    pagos.add(nuevoPago);
+                    //pagos.add(nuevoPago);
                     System.out.println("Método de pago agregado");
                     break;
     
@@ -713,10 +712,7 @@ public class Main {
                     int idPedidoPago = Integer.parseInt(sc.nextLine());
                     System.out.print("ID del método de pago: ");
                     int idPago = Integer.parseInt(sc.nextLine());
-                    Pago metodoPago = pagos.stream()
-                            .filter(p -> p.getId() == idPago)
-                            .findFirst()
-                            .orElse(null);
+                    Pago metodoPago = cliente.getMetodosPago().stream().filter(p -> p.getId() == idPago).findFirst().orElse(null); // Buscar método de pago, usar stream para filtrar y obtener
                     if (metodoPago != null) {
                         cliente.agregarMetodoPago(metodoPago.getId(), idPedidoPago);
                         System.out.println("Método de pago agregado al pedido " + idPedidoPago);

@@ -65,7 +65,6 @@ public class Cliente {
     }
 
     public void eliminarCuenta(ArrayList<Cliente> clientes) {
-        // Implementar lógica para eliminar cuenta
         clientes.remove(this);
     }
 
