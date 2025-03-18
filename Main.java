@@ -94,13 +94,21 @@ public class Main {
 
         // Pedidos
         // Agregar dos pedidos, uno completado y otro pendiente 
+        // Pedido pendiente
         clientes.get(0).crearPedido(pedidos);
-        ArrayList<Producto> productosPedido = new ArrayList<>();
-        productosPedido.add(catalogo.get(0)); // Laptop
-        productosPedido.add(catalogo.get(2)); /// Teléfono
+        clientes.get(0).agregarProductoPedido(0, 1, 1, catalogo);
+        clientes.get(0).agregarProductoPedido(2, 1, 1, catalogo);
         clientes.get(0).agregarDireccionEntrega(1, 1);
         clientes.get(0).agregarMetodoPago(1, 1);
-        //pedidos.add(new Pedido(1, productosPedido, direcciones.get(0), pagos.get(0), "Pendiente", clientes.get(0).getId()));
+
+        //Pedido Pagado 
+        clientes.get(0).crearPedido(pedidos);
+        clientes.get(0).agregarProductoPedido(1, 1, 2, catalogo);
+        clientes.get(0).agregarDireccionEntrega(1, 2);
+        clientes.get(0).agregarMetodoPago(1, 2);
+        // Marcar como completado
+        empleados.get(0).actualizarEstadoPedido(2, "Completado", pedidos);
+
     }
 
     private static void manejarAdmin() {
@@ -276,7 +284,10 @@ public class Main {
 
                 case "6": // Conocer inventario
                     List<Producto> inventario = admin.conocerInventario(catalogo);
-                    System.out.println("Inventario: " + inventario);
+                    System.out.println("Inventario:");
+                    for (Producto p : inventario){
+                        System.out.println(p);
+                    }
                     break;
 
                 case "7": // Consultar cantidad de pedidos
@@ -294,9 +305,7 @@ public class Main {
                     String callePunto = sc.nextLine();
                     System.out.print("Ciudad: ");
                     String ciudadPunto = sc.nextLine();
-                    System.out.print("Código postal: ");
-                    String codigoPostalPunto = sc.nextLine();
-                    admin.agregarPuntoEntrega(callePunto, ciudadPunto, codigoPostalPunto, puntosEntrega);
+                    admin.agregarPuntoEntrega(callePunto, ciudadPunto, puntosEntrega);
                     System.out.println("Punto de entrega agregado");
                     break;
 

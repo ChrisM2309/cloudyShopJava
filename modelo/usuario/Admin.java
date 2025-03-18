@@ -61,7 +61,7 @@ public class Admin extends Empleado {
         return realizados;
     }
 
-    public Direccion agregarPuntoEntrega(String calle, String ciudad, String codigoPostal, List<Direccion> puntosEntrega) {
+    public Direccion agregarPuntoEntrega(String calle, String ciudad, List<Direccion> puntosEntrega) {
         int nuevoId = puntosEntrega.size() + 1;
         Direccion punto = new Direccion(nuevoId, calle, ciudad, true);
         puntosEntrega.add(punto);
