@@ -151,7 +151,7 @@ No se ha implementado persistencia en archivos ni bases de datos.
 - **Uso de `ArrayList`**  
   Las colecciones de datos (como listas de empleados, clientes o productos) se gestionan con `ArrayList`. Esto facilita la manipulación de datos, pero puede no ser eficiente para grandes volúmenes de información.  
 
-## Mejoras a futuro
+### Mejoras a futuro
 
 - Validación más robusta de entradas del usuario.
 - Persistencia de datos (almacenamiento en archivos o base de datos).
