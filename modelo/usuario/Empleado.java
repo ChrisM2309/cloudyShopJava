@@ -15,6 +15,14 @@ public class Empleado {
     private String correo;
     private String contraseña;
 
+    // Constructor Predeterminado
+    public Empleado(int id){
+        this.id = id;
+        this.nombre = null;
+        this.usuario = null;
+        this.correo = null;
+        this.contraseña = null;
+    }
     // Constructor completo
     public Empleado(int id, String nombre, String usuario, String correo, String contraseña) {
         this.id = id;
@@ -45,7 +53,7 @@ public class Empleado {
     }
 
     public ArrayList<Producto> consultarProductosCatalogo(ArrayList<Producto> catalogo) {
-        return new ArrayList<>(catalogo);
+        return catalogo;
     }
 
     public void agregarProductoCatalogo(Producto producto, ArrayList<Producto> catalogo) {

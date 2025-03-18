@@ -5,7 +5,12 @@ public class Direccion {
     private String calle;
     private String ciudad;
     private boolean esPuntoDeEntrega;
-
+    public Direccion(int id) {
+        this.id = id;
+        this.calle = null;
+        this.ciudad = null;
+        this.esPuntoDeEntrega = false;
+    }
     public Direccion(int id, String calle, String ciudad, boolean esPuntoDeEntrega) {
         this.id = id;
         this.calle = calle;

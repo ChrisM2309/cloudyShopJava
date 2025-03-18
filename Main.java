@@ -370,8 +370,7 @@ public class Main {
                     break;
     
                 case "2": // Agregar producto al catálogo
-                    System.out.print("ID del producto: ");
-                    int idProducto = Integer.parseInt(sc.nextLine());
+                    int idProducto = catalogo.size()+1;
                     System.out.print("Nombre: ");
                     String nombre = sc.nextLine();
                     System.out.print("Descripción: ");
@@ -413,8 +412,7 @@ public class Main {
                     break;
     
                 case "5": // Agregar etiqueta a producto
-                    System.out.print("ID del producto: ");
-                    int idProdEtiqueta = Integer.parseInt(sc.nextLine());
+                    int idProdEtiqueta = etiquetas.size()+1;
                     System.out.print("ID de la etiqueta: ");
                     int idEtiqueta = Integer.parseInt(sc.nextLine());
                     // Buscar la etiqueta en la lista de etiquetas (asumiendo que existe una lista estática 'etiquetas')
@@ -429,7 +427,6 @@ public class Main {
                         System.out.println("Etiqueta no encontrada");
                     }
                     break;
-    
                 case "6": // Eliminar etiqueta de producto
                     for( Producto producto: catalogo){
                         System.out.println(empleado);

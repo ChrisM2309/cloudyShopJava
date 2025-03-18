@@ -9,7 +9,14 @@ public class Producto {
     private double precio;
     private ArrayList<Etiqueta> etiquetas;
     private int inventario;
-
+    public Producto(int id) {
+        this.id = id;
+        this.nombre = null;
+        this.descripcion = null;
+        this.precio = 0.0;
+        this.etiquetas = new ArrayList<Etiqueta>();
+        this.inventario = 0;
+    }
     public Producto(int id, String nombre, String descripcion, double precio, int inventario) {
         this.id = id;
         this.nombre = nombre;

@@ -19,6 +19,18 @@ public class Cliente {
     private ArrayList<Pago> metodosPago;
     private ArrayList<Pedido> pedidos;
 
+    //  Constructor Predeterminado
+    public Cliente(int id) {
+        this.id = id;
+        this.nombre = null;
+        this.usuario = null;
+        this.correo = null;
+        this.password = null;
+        this.telefono = null;
+        this.direcciones = new ArrayList<>();
+        this.metodosPago = new ArrayList<>();
+        this.pedidos = new ArrayList<>();
+    }
     //  Constructor completo
     public Cliente(int id, String nombre, String usuario, String correo, String password, String telefono) {
         this.id = id;

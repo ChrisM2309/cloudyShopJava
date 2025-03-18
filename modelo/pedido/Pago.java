@@ -6,6 +6,12 @@ public class Pago {
     private String datos;
     private String estado;
 
+    public Pago(int id) {
+        this.id = id;
+        this.tipo = null;
+        this.datos = null;
+        this.estado = null;
+    }
     public Pago(int id, String tipo, String datos, String estado) {
         this.id = id;
         this.tipo = tipo;

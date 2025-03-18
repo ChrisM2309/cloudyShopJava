@@ -11,6 +11,14 @@ public class Pedido {
     private String estado;
     private int clienteId;
 
+    public Pedido(int id, int clienteId) {
+        this.id = id;
+        this.productos = null;
+        this.direccion = null;
+        this.metodoPago = null;
+        this.estado = null;
+        this.clienteId = clienteId;
+    }
     public Pedido(int id, ArrayList<Producto> productos, Direccion direccion, Pago metodoPago, String estado, int clienteId) {
         this.id = id;
         this.productos = productos;
