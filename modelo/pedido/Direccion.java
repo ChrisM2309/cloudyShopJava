@@ -43,6 +43,6 @@ public class Direccion {
 
     @Override
     public String toString() {
-        return "Dirección{id=" + id + ", calle='" + calle + "', ciudad='" + ciudad + "', esPuntoDeEntrega=" + esPuntoDeEntrega + "}";
+        return "Id:" + id + ", Calle:'" + calle + "', Ciudad:'" + ciudad + "', Punto de entrega=" + esPuntoDeEntrega + "}";
     }
 }
