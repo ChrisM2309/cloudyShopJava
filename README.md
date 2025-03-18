@@ -79,13 +79,77 @@ Dependiendo de la opción seleccionada, el usuario será dirigido a un menú esp
 
 ## Estructura del Proyecto
 
-El proyecto está organizado en los siguientes paquetes:
+El proyecto está organizado en paquetes que agrupan las clases según su funcionalidad. A continuación, se detalla cada paquete y las clases que contiene:
 
-- **`modelo.usuario`**: Contiene las clases `Admin`, `Empleado` y `Cliente`.
-- **`modelo.producto`**: Contiene las clases `Producto` y `Etiqueta`.
-- **`modelo.pedido`**: Contiene las clases `Pedido`, `Direccion` y `Pago`.
-- **`Main`**: Clase principal ubicada en el paquete raíz, maneja la lógica del programa y la interacción con el usuario a través de la consola.
+- **`modelo.usuario`**  
+  Este paquete contiene las clases relacionadas con los diferentes tipos de usuarios del sistema:  
+  - **`Admin.java`**: Clase que hereda de `Empleado` y añade funcionalidades específicas para administradores, como la gestión de etiquetas, empleados y puntos de entrega.  
+  - **`Empleado.java`**: Clase base para los empleados, incluye métodos para gestionar productos, inventario y pedidos.  
+  - **`Cliente.java`**: Representa a los clientes, permitiéndoles gestionar su cuenta, consultar productos y realizar pedidos.  
 
+- **`modelo.producto`**  
+  Este paquete agrupa las clases relacionadas con los productos y su categorización:  
+  - **`Producto.java`**: Define los productos del catálogo con atributos como nombre, descripción, precio, inventario y etiquetas asociadas.  
+  - **`Etiqueta.java`**: Permite clasificar los productos en categorías (por ejemplo, "Electrónica", "Hogar").  
+
+- **`modelo.pedido`**  
+  Este paquete contiene las clases que gestionan los pedidos y sus componentes:  
+  - **`Pedido.java`**: Representa un pedido, incluyendo los productos seleccionados, la dirección de entrega, el método de pago y el estado del pedido.  
+  - **`Direccion.java`**: Almacena la información de las direcciones, tanto de los clientes como de los puntos de entrega.  
+  - **`Pago.java`**: Gestiona los métodos de pago, incluyendo el tipo (por ejemplo, tarjeta, efectivo), los datos asociados y el estado del pago.  
+
+- **`Main.java`**  
+  Esta clase principal coordina la lógica del programa, maneja la interacción con el usuario a través de la consola y gestiona las sesiones según los roles.
+
+---
+
+### Descripción de las Funcionalidades Implementadas
+
+El sistema incluye una serie de funcionalidades clave que permiten a los usuarios interactuar con el comercio electrónico según sus roles. Estas son las principales características implementadas:
+
+- **Autenticación de Usuarios**  
+  - Los usuarios pueden iniciar sesión como administradores, empleados o clientes.  
+  - Los clientes tienen la opción de registrarse en el sistema.  
+
+- **Gestión de Productos**  
+  - Los **administradores** pueden crear y eliminar etiquetas para clasificar productos.  
+  - Los **empleados** pueden agregar, eliminar y editar productos en el catálogo, así como asignar o quitar etiquetas a los productos.  
+
+- **Gestión de Inventario**  
+  - Los empleados pueden consultar el inventario de productos, registrar nuevas entradas de inventario y recibir alertas cuando el inventario de un producto está bajo.  
+
+- **Gestión de Pedidos**  
+  - Los **clientes** pueden crear pedidos, añadir productos, seleccionar direcciones y métodos de pago, y cancelar pedidos si es necesario.  
+  - Los **empleados** pueden actualizar el estado de los pedidos, cancelarlos y verificar el estado de los pagos asociados.  
+
+- **Gestión de Usuarios**  
+  - Los **administradores** pueden registrar, eliminar y editar la información de los empleados.  
+  - Los **clientes** pueden editar sus datos personales, gestionar sus direcciones y métodos de pago.  
+
+- **Puntos de Entrega**  
+  - Los **administradores** pueden agregar, editar y eliminar puntos de entrega disponibles para los pedidos.  
+
+
+---
+
+### Consideraciones Especiales sobre la Implementación
+
+La implementación actual tiene ciertas características y limitaciones que es importante destacar:
+
+- **Datos Precargados**  
+  El sistema inicializa datos de prueba al arrancar (administradores, empleados, clientes, productos, etiquetas). Esto permite probar las funcionalidades sin necesidad de ingresar datos manualmente.  
+
+- **Persistencia de Datos**  
+No se ha implementado persistencia en archivos ni bases de datos.  
+
+- **Validación de Entradas**  
+  La validación de las entradas del usuario es básica. Por ejemplo, no se verifican IDs inexistentes ni se manejan adecuadamente entradas no numéricas cuando se esperan números, lo que puede provocar errores.  
+
+- **Herencia en Usuarios**  
+  La clase `Admin` hereda de `Empleado`, compartiendo funcionalidades comunes pero añadiendo permisos adicionales para tareas administrativas. Esto refleja una estructura jerárquica en los roles de usuario.  
+
+- **Uso de `ArrayList`**  
+  Las colecciones de datos (como listas de empleados, clientes o productos) se gestionan con `ArrayList`. Esto facilita la manipulación de datos, pero puede no ser eficiente para grandes volúmenes de información.  
 
 ## Mejoras a futuro
 
