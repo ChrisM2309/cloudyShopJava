@@ -1,16 +1,21 @@
 package modelo.pedido;
 
 public class Direccion {
+    // Atributos de la clase Direccion
     private int id;
     private String calle;
     private String ciudad;
     private boolean esPuntoDeEntrega;
+
+    //Constructor Predeterminado
     public Direccion(int id) {
         this.id = id;
         this.calle = null;
         this.ciudad = null;
         this.esPuntoDeEntrega = false;
     }
+
+    //Constructor Completo
     public Direccion(int id, String calle, String ciudad, boolean esPuntoDeEntrega) {
         this.id = id;
         this.calle = calle;
@@ -18,6 +23,7 @@ public class Direccion {
         this.esPuntoDeEntrega = esPuntoDeEntrega;
     }
 
+    //Metodos Getters
     public int getId() {
         return id;
     }
@@ -34,6 +40,7 @@ public class Direccion {
         return esPuntoDeEntrega;
     }
 
+    // Métodos Setters
     public void setCalle(String nueva) {
         this.calle = nueva;
     }
@@ -46,6 +53,7 @@ public class Direccion {
         this.esPuntoDeEntrega = estado;
     }
 
+    // Metodo toString para representar el objeto Direccion como una cadena de texto
     @Override
     public String toString() {
         return "Id:" + id + ", Calle:'" + calle + "', Ciudad:'" + ciudad + "', Punto de entrega=" + esPuntoDeEntrega + "}";
