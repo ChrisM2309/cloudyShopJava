@@ -16,6 +16,6 @@ public class Etiqueta {
 
     @Override
     public String toString() {
-        return "Etiqueta{id=" + id + ", nombre='" + nombre + "}";
+        return "Id:" + id + ", Nombre:'" + nombre + "}";
     }
 }
