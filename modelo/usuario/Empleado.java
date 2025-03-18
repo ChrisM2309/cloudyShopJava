@@ -156,6 +156,6 @@ public class Empleado {
 
     @Override
     public String toString() {
-        return "Id:" + id + ", Nombre:'" + nombre + "', Usuario:'" + usuario + "'}";
+        return "Id:" + id + ", Nombre:'" + nombre + "', Usuario:'" + usuario;
     }
 }

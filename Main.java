@@ -232,6 +232,9 @@ public class Main {
                     break;
 
                 case "2": // Eliminar etiqueta
+                    for(Etiqueta etiqueta: etiquetas){
+                        System.out.println(etiqueta);
+                    }
                     System.out.print("ID de la etiqueta a eliminar: ");
                     int idEtiquetaEliminar = Integer.parseInt(sc.nextLine());
                     admin.eliminarEtiqueta(idEtiquetaEliminar, etiquetas);
@@ -250,6 +253,9 @@ public class Main {
                     break;
 
                 case "4": // Eliminar cuenta de empleado
+                    for(Empleado empleado: empleados){
+                        System.out.println(empleado);
+                    }
                     System.out.print("ID del empleado a eliminar: ");
                     int idEmpleadoEliminar = Integer.parseInt(sc.nextLine());
                     admin.eliminarCuentaEmpleado(idEmpleadoEliminar, empleados);
@@ -309,6 +315,9 @@ public class Main {
                     break;
 
                 case "11": // Eliminar punto de entrega
+                    for(Direccion direccion: puntosEntrega){
+                        System.out.println(direccion);
+                    }
                     System.out.print("ID del punto de entrega a eliminar: ");
                     int idPuntoEliminar = Integer.parseInt(sc.nextLine());
                     admin.eliminarPuntoEntrega(idPuntoEliminar, puntosEntrega);
@@ -377,6 +386,9 @@ public class Main {
                     break;
     
                 case "3": // Eliminar producto del catálogo
+                    for( Producto producto: catalogo){
+                        System.out.println(empleado);
+                    }
                     System.out.print("ID del producto a eliminar: ");
                     int idEliminar = Integer.parseInt(sc.nextLine());
                     empleado.eliminarProductoCatalogo(idEliminar, catalogo);
@@ -419,6 +431,9 @@ public class Main {
                     break;
     
                 case "6": // Eliminar etiqueta de producto
+                    for( Producto producto: catalogo){
+                        System.out.println(empleado);
+                    }
                     System.out.print("ID del producto: ");
                     int idProdEliminarEtiqueta = Integer.parseInt(sc.nextLine());
                     System.out.print("ID de la etiqueta: ");
@@ -581,6 +596,7 @@ public class Main {
                     break;
     
                 case "6": // Eliminar método de pago
+
                     System.out.print("ID del método de pago a eliminar: ");
                     int idPagoEliminar = Integer.parseInt(sc.nextLine());
                     cliente.eliminarMetodoPago(idPagoEliminar);
