@@ -219,6 +219,6 @@ public class Cliente {
     }
     @Override
     public String toString() {
-        return "Cliente{id=" + id + ", nombre='" + nombre + "', usuario='" + usuario + "'}";
+        return "Id:" + id + ", Nombre:'" + nombre + "', Usuario:'" + usuario + "'}";
     }
 }
