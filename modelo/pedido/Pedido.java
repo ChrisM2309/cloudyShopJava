@@ -34,6 +34,6 @@ public class Pedido {
 
     @Override
     public String toString() {
-        return "Pedido{id=" + id + ", estado='" + estado + "', clienteId=" + clienteId + "}";
+        return "Id:" + id + ", Estado:'" + estado + "', Cliente Id:" + clienteId + "}";
     }
 }
