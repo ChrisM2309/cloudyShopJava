@@ -141,7 +141,6 @@ public class Cliente {
                 }
             }
         }
-        System.out.println("No se pudo agregar al pedido.");
     }
 
     //  Permite buscar productos según sus etiquetas características

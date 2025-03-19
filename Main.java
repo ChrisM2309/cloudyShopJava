@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+// Clase principal que coordina la ejecución del sistema de comercio electrónico CloudyShop
 public class Main {
+    // Listas estáticas para almacenar las entidades del sistema
     private static ArrayList<Empleado> empleados = new ArrayList<>();
     private static ArrayList<Admin> admins = new ArrayList<>();
     private static ArrayList<Cliente> clientes = new ArrayList<>();
@@ -21,13 +23,15 @@ public class Main {
     private static ArrayList<Direccion> puntosEntrega = new ArrayList<>();
     private static Scanner sc = new Scanner(System.in);
 
+    // Método principal que inicia el sistema y muestra el menú principal
     public static void main(String[] args) {
         // Menú principal
         while (true) {
-
+            // Carga datos iniciales para pruebas
             inicializarDatos();
 
-            System.out.println("\nBienvenido al sistema");
+            // Menú principal
+            System.out.println("\nBienvenido al sistema de CloudyShop");
             System.out.println("1. Iniciar sesión como administrador");
             System.out.println("2. Iniciar sesión como empleado");
             System.out.println("3. Iniciar sesión como cliente");
@@ -36,29 +40,31 @@ public class Main {
             System.out.print("Seleccione una opción: ");
             String opcion = sc.nextLine();
 
+            // Procesar la opción seleccionada
             switch (opcion) {
                 case "1":
-                    manejarAdmin();
+                    manejarAdmin(); // Maneja el inicio de sesión y menú del administrador                    break;
                     break;
                 case "2":
-                    manejarEmpleado();
+                    manejarEmpleado(); // Maneja el inicio de sesión y menú del empleado
                     break;
                 case "3":
-                    manejarCliente();
+                    manejarCliente(); // Maneja el inicio de sesión y menú del cliente
                     break;
                 case "4": 
-                    registrarCliente();
+                    registrarCliente(); // Registra un nuevo cliente
                     break; 
                 case "5":
                     System.out.println("Saliendo del sistema...");
-                    sc.close();
-                    return;
+                    sc.close(); // Cierra el Scanner
+                    return; // Termina el programa
                 default:
                     System.out.println("Opción no válida, intente de nuevo.");
             }
         }
     }
 
+    // Método para inicializar datos de prueba al arrancar el sistema
     private static void inicializarDatos() {
         // Administradores
         admins.add(new Admin(1, "Juan Admin", "admin1", "admin1@empresa.com", "admin123"));
@@ -111,36 +117,39 @@ public class Main {
 
     }
 
+    // Método para manejar el inicio de sesión del administrador
     private static void manejarAdmin() {
         System.out.print("Usuario: ");
         String usuario = sc.nextLine();
         System.out.print("Contraseña: ");
         String password = sc.nextLine();
 
-        Admin admin = buscarAdmin(usuario, password);
+        Admin admin = buscarAdmin(usuario, password); // Busca al administrador
         if (admin != null) {
             System.out.println("Sesión iniciada como administrador");
-            menuAdmin(admin);
+            menuAdmin(admin); // Muestra el menú del administrador
         } else {
             System.out.println("Credenciales incorrectas");
         }
     }
 
+    // Método para manejar el inicio de sesión del empleado
     private static void manejarEmpleado() {
         System.out.print("Usuario: ");
         String usuario = sc.nextLine();
         System.out.print("Contraseña: ");
         String contraseña = sc.nextLine();
 
-        Empleado empleado = buscarEmpleado(usuario, contraseña);
+        Empleado empleado = buscarEmpleado(usuario, contraseña); // Busca al empleado
         if (empleado != null) {
             System.out.println("Sesión iniciada como empleado");
-            menuEmpleado(empleado);
+            menuEmpleado(empleado); // Muestra el menú del empleado
         } else {
             System.out.println("Credenciales incorrectas");
         }
     }
 
+    // Método para registrar un nuevo cliente
     private static void registrarCliente() {
         System.out.print("Nombre: ");
         String nombre = sc.nextLine();
@@ -160,21 +169,23 @@ public class Main {
         System.out.println("Cliente registrado exitosamente.");
     }
 
+    // Método para manejar el inicio de sesión del cliente
     private static void manejarCliente() {
         System.out.print("Usuario: ");
         String usuario = sc.nextLine();
         System.out.print("Contraseña: ");
         String password = sc.nextLine();
-
-        Cliente cliente = buscarCliente(usuario, password);
+ 
+        Cliente cliente = buscarCliente(usuario, password); // Busca al cliente
         if (cliente != null) {
             System.out.println("Sesión iniciada como cliente");
-            menuCliente(cliente);
+            menuCliente(cliente); // Muestra el menú del cliente
         } else {
             System.out.println("Credenciales incorrectas");
         }
     }
 
+    // Busca un administrador por usuario y contraseña
     private static Admin buscarAdmin(String usuario, String contraseña) {
         for (Admin admin : admins) {
             if (admin.iniciarSesion(usuario, contraseña)) {
@@ -184,6 +195,7 @@ public class Main {
         return null;
     }
 
+    // Busca un empleado por usuario y contraseña
     private static Empleado buscarEmpleado(String usuario, String contraseña) {
         for (Empleado empleado : empleados) {
             if (empleado.iniciarSesion(usuario, contraseña)) {
@@ -193,6 +205,7 @@ public class Main {
         return null;
     }
 
+    // Busca un cliente por usuario y contraseña
     private static Cliente buscarCliente(String usuario, String contraseña) {
         for (Cliente cliente : clientes) {
             if (cliente.iniciarSesion(usuario, contraseña)) {
@@ -202,6 +215,7 @@ public class Main {
         return null;
     }
 
+    // Menú interactivo para el administrador
     private static void menuAdmin(Admin admin) {
         while (true) {
             // Mostrar el menú con todas las opciones organizadas por categorías
@@ -342,6 +356,7 @@ public class Main {
         }
     }
 
+    // Menú interactivo para el empleado
     private static void menuEmpleado(Empleado empleado) {
         while (true) {
             // Mostrar el menú con todas las opciones organizadas por categorías
@@ -528,8 +543,10 @@ public class Main {
         }
     }
 
+    // Menú interactivo para el cliente
     private static void menuCliente(Cliente cliente) {
         while (true) {
+            // Muestra el menú organizado por categorías
             System.out.println("\nMenú para Cliente");
             System.out.println("-- Mi Cuenta --");
             System.out.println("1. Editar mis datos");
