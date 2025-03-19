@@ -645,13 +645,20 @@ public class Main {
     
                 // -- Productos --
                 case "11": // Ver productos
-                    //List<Producto> productos = cliente.consultarProductosCatalogo(catalogo);
-                    System.out.println("Catálogo:\n " + catalogo);
+                    List<Producto> productos = cliente.verProductos(catalogo);
+                    System.out.println("Catálogo:\n ");
+                    for (Producto p : productos){
+                        System.out.println("- " + p);
+                    }
                     break;
     
                 case "12": // Filtrar productos por etiqueta
-                    System.out.print("Etiquetas:\n" + etiquetas);
+                    System.out.print("Etiquetas:\n");
+                    for (Etiqueta p : etiquetas){
+                        System.out.println("- " + p);
+                    }
                     System.out.print("Nombre de la etiqueta (e.g., Electrónica): ");
+                    
                     String nombreEtiqueta = sc.nextLine();
                     Etiqueta etiqueta = null;
                     for (Etiqueta e : etiquetas) {
@@ -662,7 +669,10 @@ public class Main {
                     }
                     if (etiqueta != null) {
                         List<Producto> productosFiltrados = cliente.filtrarProductosPorEtiqueta(etiqueta, catalogo);
-                        System.out.println("Productos filtrados: " + productosFiltrados);
+                        System.out.println("Productos filtrados: ");
+                        for (Producto p : productosFiltrados){
+                            System.out.println("- " + p);
+                        }
                     } else {
                         System.out.println("Etiqueta no encontrada");
                     }

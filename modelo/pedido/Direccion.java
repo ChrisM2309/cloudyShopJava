@@ -56,6 +56,6 @@ public class Direccion {
     // Metodo toString para representar el objeto Direccion como una cadena de texto
     @Override
     public String toString() {
-        return "Id:" + id + ", Calle:'" + calle + "', Ciudad:'" + ciudad + "', Punto de entrega=" + esPuntoDeEntrega + "}";
+        return "Id:" + id + ", Calle:'" + calle + "', Ciudad:'" + ciudad + "'}";
     }
 }

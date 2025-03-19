@@ -38,6 +38,6 @@ public class Pago {
     // Metodo toString para representar el objeto Pago como una cadena de texto
     @Override
     public String toString() {
-        return "Id:" + id + ", Tipo:'" + tipo + "', Estado:'" + estado + "'}";
+        return "Id:" + id + ", Tipo:'" + tipo + "', Estado:'" + estado + "', Datos:'" + datos + "'";
     }
 }

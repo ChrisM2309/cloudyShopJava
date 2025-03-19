@@ -4,6 +4,7 @@ import modelo.pedido.Pago;
 import modelo.pedido.Pedido;
 import modelo.producto.Etiqueta;
 import modelo.producto.Producto;
+import java.util.Scanner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +89,15 @@ public class Cliente {
 
     // Elimina la cuenta del cliente de la lista proporcionada
     public void eliminarCuenta(ArrayList<Cliente> clientes) {
-        clientes.remove(this);
+        System.out.println("Estas seguro de eliminar?\nIngresa tu contraseña para confirmar.");
+        Scanner scanner = new Scanner(System.in);
+        String opcion = scanner.nextLine();
+        if (opcion.equals(password)){
+            clientes.remove(this);
+        } else { 
+            System.out.println("Proceso incorrecto.");
+        }
+        scanner.close();
     }
 
     // Devuelve la lista completa de pedidos pasados del cliente
@@ -124,10 +133,15 @@ public class Cliente {
                     if (prod.getId() == idProducto && prod.getInventario() >= cantidad) {
                         p.getProductos().add(prod);
                         prod.actualizarInventario(prod.getInventario() - cantidad);
+                        return;
+                    } else if (prod.getId() == idProducto){ 
+                        System.out.println("No hay suficiente de este producto, solo hay " + prod.getInventario());
+                        return;
                     }
                 }
             }
         }
+        System.out.println("No se pudo agregar al pedido.");
     }
 
     //  Permite buscar productos según sus etiquetas características
