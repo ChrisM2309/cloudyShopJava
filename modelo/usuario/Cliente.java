@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cliente {
+
+    //  Variables a utilizar, de tipo privado
     private int id;
     private String nombre;
     private String usuario;
@@ -31,6 +33,7 @@ public class Cliente {
         this.metodosPago = new ArrayList<>();
         this.pedidos = new ArrayList<>();
     }
+
     //  Constructor completo
     public Cliente(int id, String nombre, String usuario, String correo, String password, String telefono) {
         this.id = id;
@@ -43,6 +46,7 @@ public class Cliente {
         this.metodosPago = new ArrayList<>();
         this.pedidos = new ArrayList<>();
     }
+
     // Metodos Getters
     public int getId() { return id; }
     public String getNombre() { return nombre; }
@@ -103,7 +107,6 @@ public class Cliente {
 
     // Devuelve una lista de productos disponibles (con inventario mayor a 0)
     public ArrayList<Producto> verProductos(ArrayList<Producto> catalogo) {
-        // Implementar lógica para obtener productos disponibles
         ArrayList<Producto> disponible = new ArrayList<>();
         for (Producto p : catalogo){
             if (p.getInventario() > 0){
@@ -127,11 +130,7 @@ public class Cliente {
         }
     }
 
-    public ArrayList<Etiqueta> verEtiquetas() {
-        // Implementar lógica para obtener etiquetas disponibles
-        return new ArrayList<>();
-    }
-
+    //  Permite buscar productos según sus etiquetas características
     public List<Producto> filtrarProductosPorEtiqueta(Etiqueta etiqueta, List<Producto> catalogo) {
         List<Producto> resultado = new ArrayList<>();
         for (Producto p : catalogo) {
@@ -142,6 +141,7 @@ public class Cliente {
         return resultado;
     }
 
+    //  Consultar la disponibilidad de un producto
     public int consultarInventarioProducto(int idProducto, List<Producto> catalogo) {
         for (Producto p : catalogo) {
             if (p.getId() == idProducto) {
@@ -151,6 +151,7 @@ public class Cliente {
         return 0;
     }
 
+    //  Crear un nuevo pedido
     public Pedido crearPedido(List<Pedido> pedidosSistema) {
         int nuevoId = pedidosSistema.size() + 1;
         Pedido pedido = new Pedido(nuevoId, new ArrayList<>(), null, null, "Pendiente", this.id);
@@ -159,6 +160,7 @@ public class Cliente {
         return pedido;
     }
 
+    //  Definir la dirección en la que se entregará un pedido
     public void agregarDireccionEntrega(int idDireccion, int idPedido) {
         for (Pedido p : pedidos) {
             if (p.getId() == idPedido) {
@@ -172,6 +174,7 @@ public class Cliente {
         }
     }
 
+    //  Agregar el método de pago que se utilizará
     public void agregarMetodoPago(int idPago, int idPedido) {
         for (Pedido p : pedidos) {
             if (p.getId() == idPedido) {
@@ -185,11 +188,13 @@ public class Cliente {
         }
     }
 
+    //  Consultar el estado de los pedidos
     public ArrayList<Pedido> consultarEstadoPedidos() {
-        // Implementar lógica para obtener estado de pedidos
-        return new ArrayList<>();
+
+        return getPedidos();
     }
 
+    //  Cancelar un pedido realizado
     public void cancelarPedido(int idPedido) {
         for (Pedido p : pedidos) {
             if (p.getId() == idPedido) {
@@ -198,31 +203,38 @@ public class Cliente {
         }
     }
 
+    //  Agregar el método de pago al sistema
     public void agregarMetodoPagoSistema(Pago datosPago) {
-        this.metodosPago.add(datosPago);
+        metodosPago.add(datosPago);
     }
 
+    //  Editar un método de pago ya ingresado
     public void editarMetodoPago(int idPago, Pago nuevosDatos) {
-        // Implementar lógica para actualizar método de pago
+        metodosPago.get(idPago).setDatos(nuevosDatos.getDatos());
     }
 
+    //  Eliminar un método de pago ya ingresado
     public void eliminarMetodoPago(int idPago) {
-        // Implementar lógica para eliminar método de pago
+        metodosPago.get(idPago).setEstado("Eliminado");
     }
 
+    //  Visualizar los métodos de pago almacenados
     public ArrayList<Pago> verMetodosPagoGuardados() {
         return this.metodosPago;
     }
 
+    //  Visualizar las direcciones de entrega almacenadas
     public ArrayList<Direccion> verDireccionesEntrega() {
         return this.direcciones;
     }
 
+    //  Agregar una nueva dirección de entrega
     public void agregarNuevaDireccion(String calle, String ciudad) {
         int nuevoId = direcciones.size() + 1;
         direcciones.add(new Direccion(nuevoId, calle, ciudad, false));
     }
 
+    //  Editar una dirección de entrega ya almacenada
     public void editarDireccion(int idDireccion, String calle, String ciudad) {
         for (Direccion d : direcciones) {
             if (d.getId() == idDireccion) {
@@ -232,6 +244,7 @@ public class Cliente {
         }
     }
 
+    //  Eliminar una dirección de entrega ya almacenada
     public void eliminarDireccion(int idDireccion) {
         for (Direccion d : direcciones){
             if(d.getId() == idDireccion){
@@ -239,6 +252,8 @@ public class Cliente {
             }
         }
     }
+
+    //  Formato de impresión
     @Override
     public String toString() {
         return "Id:" + id + ", Nombre:'" + nombre + "', Usuario:'" + usuario;
