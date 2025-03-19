@@ -598,8 +598,8 @@ public class Main {
                     int idPagoEditar = Integer.parseInt(sc.nextLine());
                     System.out.print("Nuevos datos (e.g., número de tarjeta): ");
                     String nuevosDatosPago = sc.nextLine();
-                    Pago pagoEditado = new Pago(idPagoEditar, "Tarjeta", nuevosDatosPago, "Pendiente");
-                    cliente.editarMetodoPago(idPagoEditar, pagoEditado);
+                    Pago pagoEditado = new Pago(idPagoEditar - 1, "Tarjeta", nuevosDatosPago, "Pendiente");
+                    cliente.editarMetodoPago(idPagoEditar - 1, pagoEditado);
                     System.out.println("Método de pago actualizado");
                     break;
     
