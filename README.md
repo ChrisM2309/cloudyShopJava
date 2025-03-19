@@ -1,5 +1,5 @@
 # CloudyShop - Java
-Claudy Shop e-commerce system in Java
+Cloudy Shop e-commerce system in Java
 
 ## Sistema de Gestión de Comercio Electrónico
 
