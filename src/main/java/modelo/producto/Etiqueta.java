@@ -1,5 +1,7 @@
 package modelo.producto;
 
+import java.util.Objects;
+
 /**
  * Clase que representa una etiqueta para categorizar productos.
  */
@@ -65,5 +67,16 @@ public class Etiqueta {
     @Override
     public String toString() {
         return "Id:" + id + ", Nombre:'" + nombre;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Etiqueta etiqueta)) return false;
+        return id == etiqueta.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

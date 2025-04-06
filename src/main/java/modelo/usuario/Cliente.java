@@ -181,6 +181,15 @@ public class Cliente {
      * @param nuevoTelefono Nuevo número de teléfono del cliente.
      */
     public void editarDatos(String nuevoNombre, String nuevoCorreo, String nuevoTelefono) {
+        if (nuevoNombre == null || nuevoNombre.isEmpty()) {
+            throw new IllegalArgumentException("Nombre no puede ser null o vacío");
+        }
+        if (nuevoCorreo == null || nuevoCorreo.isEmpty()) {
+            throw new IllegalArgumentException("Correo no puede ser null o vacío");
+        }
+        if (nuevoTelefono == null || nuevoTelefono.isEmpty()) {
+            throw new IllegalArgumentException("Teléfono no puede ser null o vacío");
+        }
         this.nombre = nuevoNombre;
         this.correo = nuevoCorreo;
         this.telefono = nuevoTelefono;
@@ -198,7 +207,9 @@ public class Cliente {
             clientes.remove(this);
         } else {
             System.out.println("Proceso incorrecto.");
+            throw new IllegalArgumentException("Password incorrecta. No se puede eliminar la cuenta.");
         }
+        System.out.println("Cuenta eliminada exitosamente");
         scanner.close();
     }
 
@@ -245,20 +256,13 @@ public class Cliente {
      * @param catalogo Lista de productos en el catálogo.
      */
     public void agregarProductoPedido(int idProducto, int cantidad, int idPedido, List<Producto> catalogo) {
-        for (Pedido p : pedidos) {
-            if (p.getId() == idPedido) {
-                for (Producto prod : catalogo) {
-                    if (prod.getId() == idProducto && prod.getInventario() >= cantidad) {
-                        p.getProductos().add(prod);
-                        prod.actualizarInventario(prod.getInventario() - cantidad);
-                        return;
-                    } else if (prod.getId() == idProducto) {
-                        System.out.println("No hay suficiente de este producto, solo hay " + prod.getInventario());
-                        return;
-                    }
-                }
-            }
+        Pedido pedido = pedidos.stream().filter(p -> p.getId() == idPedido).findFirst().orElseThrow(() -> new IllegalArgumentException("Pedido no encontrado"));
+        Producto producto = catalogo.stream().filter(p -> p.getId() == idProducto).findFirst().orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+        if (producto.getInventario() < cantidad){
+            throw new IllegalArgumentException("Inventario insuficiente");
         }
+        pedido.getProductos().add(producto);
+        producto.actualizarInventario(producto.getInventario() - cantidad);
     }
 
     /**
@@ -298,6 +302,9 @@ public class Cliente {
      * @return El nuevo pedido creado.
      */
     public Pedido crearPedido(List<Pedido> pedidosSistema) {
+        if (pedidosSistema == null){
+            throw new IllegalArgumentException("Debe haber una lista de pedidos");
+        }
         int nuevoId = pedidosSistema.size() + 1;
         Pedido pedido = new Pedido(nuevoId, new ArrayList<>(), null, null, "Pendiente", this.id);
         this.pedidos.add(pedido);
