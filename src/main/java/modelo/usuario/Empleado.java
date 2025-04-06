@@ -6,6 +6,7 @@ import modelo.producto.Etiqueta;
 import modelo.producto.Producto;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Clase que representa a un empleado en el sistema.
@@ -340,5 +341,16 @@ public class Empleado {
     @Override
     public String toString() {
         return "Id:" + id + ", Nombre:'" + nombre + "', Usuario:'" + usuario;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Empleado empleado)) return false;
+        return Objects.equals(usuario, empleado.usuario);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(usuario);
     }
 }

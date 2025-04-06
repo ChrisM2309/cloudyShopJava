@@ -31,6 +31,14 @@ public class Admin extends Empleado {
      * @param etiquetas Lista de etiquetas en el sistema.
      */
     public void crearEtiqueta(String nombreEtiqueta, ArrayList<Etiqueta> etiquetas) {
+        if (nombreEtiqueta == null || nombreEtiqueta.isEmpty()){
+            throw new IllegalArgumentException("El nombre no puede ser null o vacia");
+        }
+        for (Etiqueta e : etiquetas) {
+            if (e.getNombre().equalsIgnoreCase(nombreEtiqueta)) {
+                throw new IllegalArgumentException("La etiqueta " + nombreEtiqueta + " ya existe");
+            }
+        }
         int nuevoId = etiquetas.size() + 1;
         Etiqueta etiqueta = new Etiqueta(nuevoId, nombreEtiqueta);
         etiquetas.add(etiqueta);
@@ -50,7 +58,7 @@ public class Admin extends Empleado {
      * @param catalogo Lista de productos en el catálogo.
      * @return Copia de la lista de productos.
      */
-    public List<Producto> conocerInventario(List<Producto> catalogo) {
+    public ArrayList<Producto> conocerInventario(List<Producto> catalogo) {
         return new ArrayList<>(catalogo);
     }
 
@@ -63,6 +71,14 @@ public class Admin extends Empleado {
      * @return El nuevo empleado registrado.
      */
     public Empleado registrarEmpleado(String nombre, String usuario, String contraseña, List<Empleado> empleados) {
+        if (nombre == null || nombre.isEmpty() || contraseña.isEmpty() || usuario.isEmpty()){
+            throw new IllegalArgumentException("No debe recibir parametros vacios");
+        }
+        for (Empleado e : empleados) {
+            if (e.getUsuario().equals(usuario)) {
+                throw new IllegalArgumentException("El usuario " + usuario + " ya existe");
+            }
+        }
         int nuevoId = empleados.size() + 1;
         Empleado empleado = new Empleado(nuevoId, nombre, usuario, nombre + "@empresa.com", contraseña);
         empleados.add(empleado);
@@ -75,7 +91,9 @@ public class Admin extends Empleado {
      * @param empleados Lista de empleados en el sistema.
      */
     public void eliminarCuentaEmpleado(int idEmpleado, ArrayList<Empleado> empleados) {
-        empleados.removeIf(e -> e.getId() == idEmpleado);
+        Empleado emp = empleados.stream().filter(p -> p.getId() == idEmpleado).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Empleado no encontrado"));
+        empleados.remove(emp);
     }
 
     /**
@@ -127,6 +145,9 @@ public class Admin extends Empleado {
      * @return El nuevo punto de entrega creado.
      */
     public Direccion agregarPuntoEntrega(String calle, String ciudad, List<Direccion> puntosEntrega) {
+        if (calle == null || calle.isEmpty() || ciudad == null || ciudad.isEmpty()) {
+            throw new IllegalArgumentException("Calle y ciudad no pueden ser null o vacíos");
+        }
         int nuevoId = puntosEntrega.size() + 1;
         Direccion punto = new Direccion(nuevoId, calle, ciudad, true);
         puntosEntrega.add(punto);
