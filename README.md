@@ -47,12 +47,17 @@ Para instalar y ejecutar este proyecto, sigue estos pasos:
 5. **Ejecuta el programa**:  
    - Navega a la carpeta `src/main/java/sistema`.  
    - Haz clic derecho en `Main.java` y selecciona **"Run 'Main'"**.
-
+ 
 ### Requisitos
 - **Java Development Kit (JDK)** 8 o superior.
 - **IntelliJ IDEA** (recomendado).
 - **Maven** (integrado en IntelliJ).
 - **Git** (para clonar el repositorio).
+
+### Credenciales de prueba para usuario administrador
+
+- **Usuario:** Admin1
+- **Contraseña:** admin123
 
 ## Ejecución de Pruebas Unitarias
 
