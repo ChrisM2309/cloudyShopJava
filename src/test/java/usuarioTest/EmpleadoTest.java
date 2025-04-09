@@ -67,8 +67,8 @@ public class EmpleadoTest {
         assertFalse(empleado.iniciarSesion("empleado1", "wrongpass"), "Debe fallar con contraseña incorrecta");
         assertFalse(empleado.iniciarSesion("wronguser", "emp123"), "Debe fallar con usuario incorrecto");
         // Nulos
-        assertThrows(IllegalArgumentException.class, () -> empleado.iniciarSesion(null, "emp123"), "Debe fallar con usuario nulo");
-        assertThrows(IllegalArgumentException.class, () -> empleado.iniciarSesion("empleado1", null), "Debe fallar con contraseña nula");
+        assertFalse(empleado.iniciarSesion(null, "emp123"), "Debe retornar false con usuario nulo");
+        assertFalse(empleado.iniciarSesion("empleado1", null), "Debe retornar false con contraseña nula");
     }
 
     /**
@@ -106,9 +106,11 @@ public class EmpleadoTest {
         assertEquals("Celular", catalogo.getLast().getNombre(), "El nombre del producto debe coincidir");
         // Manejar duplicados
         Producto productoDuplicado = new Producto(3, "Otro Celular", "Otra descripción", 1200.0, 5);
-        assertThrows(IllegalArgumentException.class, () -> empleado.agregarProductoCatalogo(productoDuplicado, catalogo), "Debe fallar con ID duplicado");
+        empleado.agregarProductoCatalogo(productoDuplicado, catalogo);
+        assertEquals(3, catalogo.size(), "No debe agregar producto con ID duplicado");
         // Manejar nulos
-        assertThrows(IllegalArgumentException.class, () -> empleado.agregarProductoCatalogo(null, catalogo), "Debe fallar con producto nulo");
+        empleado.agregarProductoCatalogo(null, catalogo);
+        assertEquals(3, catalogo.size(), "No debe agregar producto nulo");
     }
 
     /**
@@ -117,19 +119,37 @@ public class EmpleadoTest {
      */
     @Test
     void editarProductoCatalogoTest() {
-        Producto producto = new Producto(1, "Laptop", "Laptop de alta gama", 1000.0, 10);
-        catalogo.add(producto);
         empleado.editarProductoCatalogo(1, catalogo, "Laptop Actualizada", "Nueva descripción", 1100.0, 15);
-        // Probar que se actualicen los atributos
-        assertEquals("Laptop Actualizada", producto.getNombre(), "El nombre debe actualizarse");
-        assertEquals("Nueva descripción", producto.getDescripcion(), "La descripción debe actualizarse");
-        assertEquals(1100.0, producto.getPrecio(), "El precio debe actualizarse");
-        assertEquals(15, producto.getInventario(), "El inventario debe actualizarse");
-        // No existe o nombre vacio
-        assertThrows(IllegalArgumentException.class, () -> empleado.editarProductoCatalogo(99, catalogo, "Nombre", "Desc", 100.0, 10), "Debe fallar si el producto no existe");
-        assertThrows(IllegalArgumentException.class, () -> empleado.editarProductoCatalogo(1, catalogo, "", "Desc", 100.0, 10), "Debe fallar con nombre vacío");
-    }
+        assertEquals("Laptop Actualizada", producto1.getNombre(), "El nombre debe actualizarse");
+        assertEquals("Nueva descripción", producto1.getDescripcion(), "La descripción debe actualizarse");
+        assertEquals(1100.0, producto1.getPrecio(), "El precio debe actualizarse");
+        assertEquals(15, producto1.getInventario(), "El inventario debe actualizarse");
 
+        // Intentar editar con nombre vacío
+        String nombreOriginal = producto1.getNombre();
+        empleado.editarProductoCatalogo(1, catalogo, "", "Desc", 100.0, 10);
+        assertEquals(nombreOriginal, producto1.getNombre(), "No debe actualizarse con nombre vacío");
+
+        // Intentar editar producto no existente
+        empleado.editarProductoCatalogo(99, catalogo, "Nombre", "Desc", 100.0, 10);
+        // No se puede verificar directamente, pero se espera que no haya cambios    }
+    }
+    /**
+     * Prueba el método {@link Empleado#eliminarProductoCatalogo(int, ArrayList)}.
+     * Verifica la actualización de productos en el catálogo.
+     */
+    @Test
+    void eliminarProductoCatalogoTest() {
+        empleado.eliminarProductoCatalogo(1, catalogo);
+        assertEquals(1, catalogo.size(), "Debe eliminar el producto con ID 1");
+        assertFalse(catalogo.contains(producto1), "El producto 1 debe ser eliminado");
+
+        // Intentar eliminar producto no existente
+        int tamanoAntes = catalogo.size();
+        empleado.eliminarProductoCatalogo(99, catalogo);
+        assertEquals(tamanoAntes, catalogo.size(), "No debe cambiar si el producto no existe");
+    }
+    
     /**
      * Prueba el método {@link Empleado#agregarEtiquetaProducto(int, Etiqueta, ArrayList)}.
      * Verifica la adición de etiquetas a productos.
@@ -200,9 +220,13 @@ public class EmpleadoTest {
         empleado.actualizarEstadoPedido(1, "En proceso", pedidos);
         assertEquals("En proceso", pedido1.getEstado(), "El estado del pedido debe actualizarse");
 
-        assertDoesNotThrow(() -> empleado.actualizarEstadoPedido(99, "Completado", pedidos), "No debe lanzar excepción si el pedido no existe");
+        // Intentar actualizar con estado nulo
+        String estadoOriginal = pedido1.getEstado();
+        empleado.actualizarEstadoPedido(1, null, pedidos);
+        assertEquals(estadoOriginal, pedido1.getEstado(), "No debe actualizarse con estado nulo");
 
-        assertThrows(IllegalArgumentException.class, () -> empleado.actualizarEstadoPedido(1, null, pedidos), "Debe fallar con estado nulo");
+        // Intentar actualizar pedido no existente
+        assertDoesNotThrow(() -> empleado.actualizarEstadoPedido(99, "Completado", pedidos));
     }
 
     /**

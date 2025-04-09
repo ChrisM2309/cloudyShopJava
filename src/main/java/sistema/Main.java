@@ -1,3 +1,5 @@
+package sistema;
+
 import modelo.pedido.Direccion;
 import modelo.pedido.Pago;
 import modelo.pedido.Pedido;
@@ -6,9 +8,6 @@ import modelo.producto.Producto;
 import modelo.usuario.Admin;
 import modelo.usuario.Cliente;
 import modelo.usuario.Empleado;
-import sistema.SistemaAdmin;
-import sistema.SistemaCliente;
-import sistema.SistemaEmpleado;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -30,7 +29,7 @@ public class Main {
     private static Scanner sc = new Scanner(System.in);
 
     /**
-     * Constructor por defecto de la clase Main.
+     * Constructor por defecto de la clase sistema.Main.
      * Inicializa la clase sin realizar operaciones adicionales.
      */
     public Main() {

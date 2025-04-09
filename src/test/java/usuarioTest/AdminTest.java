@@ -65,10 +65,17 @@ public class AdminTest {
         assertEquals(2, empleados.size(), "El empleado debe añadirse a la lista");
         assertEquals("empleado2", nuevoEmpleado.getUsuario(), "El usuario debe coincidir");
         // Usuario duplicado
-        assertThrows(IllegalArgumentException.class, () -> admin.registrarEmpleado("Otro", "empleado2", "otro123", empleados), "Debe fallar con usuario duplicado");
-        // Manejo de vacios 
-        assertThrows(IllegalArgumentException.class, () -> admin.registrarEmpleado("", "emp2", "pass", empleados), "Debe fallar con nombre vacío");
-        assertThrows(IllegalArgumentException.class, () -> admin.registrarEmpleado(null, "emp3", "pass", empleados), "Debe fallar con nombre null");    }
+        Empleado duplicado = admin.registrarEmpleado("Otro", "empleado2", "otro123", empleados);
+        assertNull(duplicado, "No debe registrar empleado con usuario duplicado");
+        assertEquals(2, empleados.size(), "La lista no debe cambiar");
+        // Manejo de vacios y null
+        Empleado vacio = admin.registrarEmpleado("", "emp2", "pass", empleados);
+        assertNull(vacio, "No debe registrar empleado con nombre vacío");
+        assertEquals(2, empleados.size(), "La lista no debe cambiar");
+
+        Empleado nullNombre = admin.registrarEmpleado(null, "emp3", "pass", empleados);
+        assertNull(nullNombre, "No debe registrar empleado con nombre null");
+        assertEquals(2, empleados.size(), "La lista no debe cambiar");    }
 
     /**
      * Prueba el método {@link Admin#eliminarCuentaEmpleado(int, ArrayList)}.
@@ -76,13 +83,15 @@ public class AdminTest {
      */
     @Test
     void eliminarCuentaEmpleadoTest() {
-        Empleado empleado = new Empleado(1, "Ana Lucia", "empleado1", "ana@empresa.com", "emp123");
+        Empleado empleado = new Empleado(2, "Maria", "empleado2", "mj@empresa.com", "emp123");
         empleados.add(empleado);
         admin.eliminarCuentaEmpleado(1, empleados);
         // El empleado se elimina correctamente
         assertTrue(empleados.size() == 1, "El empleado debe eliminarse");
         // Debe fallar si no existe
-        assertThrows(IllegalArgumentException.class, () -> admin.eliminarCuentaEmpleado(99, empleados), "Debe fallar si el empleado no existe");
+        int tamanoAntes = empleados.size();
+        admin.eliminarCuentaEmpleado(99, empleados);
+        assertEquals(tamanoAntes, empleados.size(), "No debe cambiar si el empleado no existe");
     }
 
     /**
@@ -95,8 +104,10 @@ public class AdminTest {
         Empleado empleado = empleados.get(0);
         assertEquals("Ana Actualizada", empleado.getNombre(), "El nombre debe actualizarse");
         assertEquals("anaActualizada", empleado.getUsuario(), "El usuario debe actualizarse");
-
-        assertDoesNotThrow(() -> admin.editarInformacionEmpleado(99, empleados, "Nombre", "Usuario", "Pass"), "No debe fallar si el empleado no existe");
+        // Si no existe
+        int tamanoAntes = empleados.size();
+        admin.editarInformacionEmpleado(99, empleados, "Nombre", "Usuario", "Pass");
+        assertEquals(tamanoAntes, empleados.size(), "La lista no debe cambiar si el empleado no existe");
     }
 
 
@@ -112,10 +123,14 @@ public class AdminTest {
         assertEquals("Accesorios", etiquetas.get(1).getNombre(), "La nueva etiqueta debe ser Accesorios");
 
         // Fallar con duplicados
-        assertThrows(IllegalArgumentException.class, () -> admin.crearEtiqueta("Electrónica", etiquetas), "Debe fallar con etiqueta duplicada");
-        // Fallar con nulls
-        assertThrows(IllegalArgumentException.class, () -> admin.crearEtiqueta("", etiquetas), "Debe fallar con nombre vacío");
-        assertThrows(IllegalArgumentException.class, () -> admin.crearEtiqueta(null, etiquetas), "Debe fallar con nombre null");
+        admin.crearEtiqueta("Electrónica", etiquetas);
+        assertEquals(2, etiquetas.size(), "No debe agregar etiqueta duplicada");
+        // Fallar con nulls y empty
+        admin.crearEtiqueta("", etiquetas);
+        assertEquals(2, etiquetas.size(), "No debe agregar etiqueta con nombre vacío");
+
+        admin.crearEtiqueta(null, etiquetas);
+        assertEquals(2, etiquetas.size(), "No debe agregar etiqueta con nombre null");
     }
 
     /**
@@ -155,9 +170,13 @@ public class AdminTest {
         assertEquals("Nueva Calle", nuevoPunto.getCalle(), "La calle debe coincidir");
 
         // Manejo de parametros vacios
-        assertThrows(IllegalArgumentException.class, () -> admin.agregarPuntoEntrega("", "Ciudad", puntosEntrega), "Debe fallar con calle vacía");
-        assertThrows(IllegalArgumentException.class, () -> admin.agregarPuntoEntrega("Calle", "", puntosEntrega), "Debe fallar con ciudad vacía");
-    }
+        Direccion vacio = admin.agregarPuntoEntrega("", "Ciudad", puntosEntrega);
+        assertNull(vacio, "No debe agregar punto con calle vacía");
+        assertEquals(2, puntosEntrega.size(), "La lista no debe cambiar");
+
+        Direccion vacioCiudad = admin.agregarPuntoEntrega("Calle", "", puntosEntrega);
+        assertNull(vacioCiudad, "No debe agregar punto con ciudad vacía");
+        assertEquals(2, puntosEntrega.size(), "La lista no debe cambiar");    }
 
     /**
      * Prueba el método {@link Admin#editarPuntoEntrega(int, String, String, String, List)}.

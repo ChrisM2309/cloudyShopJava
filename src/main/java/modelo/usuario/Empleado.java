@@ -116,7 +116,8 @@ public class Empleado {
      */
     public boolean iniciarSesion(String usuario, String password) {
         if (usuario == null || password == null){
-            throw new IllegalArgumentException("Usuario o password no pueden ser null");
+            System.out.println("Usuario o contraseña no pueden ser nulos");
+            return false;
         }
         return (this.usuario.equals(usuario) && this.contraseña.equals(password));
     }
@@ -144,11 +145,13 @@ public class Empleado {
      */
     public void agregarProductoCatalogo(Producto producto, ArrayList<Producto> catalogo) {
         if (producto == null){
-            throw new IllegalArgumentException("El producto no puede ser null");
+            System.out.println("El producto no puede ser nulo");
+            return;
         }
         for (Producto p : catalogo) {
             if (p.getId() == producto.getId()) {
-                throw new IllegalArgumentException("El producto con ID " + producto.getId() + " ya existe");
+                System.out.println("El producto con ID " + producto.getId() + " ya existe");
+                return;
             }
         }
         catalogo.add(producto);
@@ -160,7 +163,10 @@ public class Empleado {
      * @param catalogo Lista de productos en el catálogo.
      */
     public void eliminarProductoCatalogo(int idProducto, ArrayList<Producto> catalogo) {
-        catalogo.removeIf(p -> p.getId() == idProducto);
+        boolean removed = catalogo.removeIf(p -> p.getId() == idProducto);
+        if (!removed) {
+            System.out.println("Producto con ID " + idProducto + " no encontrado");
+        }
     }
 
     /**
@@ -174,17 +180,19 @@ public class Empleado {
      */
     public void editarProductoCatalogo(int idProducto, ArrayList<Producto> catalogo, String nuevoNombre, String nuevaDescripcion, double nuevoPrecio, int nuevoInventario) {
         if (nuevoNombre == null || nuevoNombre.isEmpty()){
-            throw new IllegalArgumentException("El nombre no puede ser null o vacio");
+            System.out.println("El nombre no puede ser nulo o vacío");
+            return;
         }
-        Producto producto = catalogo.stream().filter(p -> p.getId() == idProducto).findFirst().orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
         for (Producto p : catalogo) {
             if (p.getId() == idProducto) {
                 p.setNombre(nuevoNombre);
                 p.setDescripcion(nuevaDescripcion);
                 p.setPrecio(nuevoPrecio);
                 p.actualizarInventario(nuevoInventario);
+                return;
             }
         }
+        System.out.println("Producto con ID " + idProducto + " no encontrado");
     }
 
     /**
@@ -197,8 +205,10 @@ public class Empleado {
         for (Producto p : catalogo) {
             if (p.getId() == idProducto) {
                 p.agregarEtiqueta(etiqueta);
+                return;
             }
         }
+        System.out.println("Producto con ID " + idProducto + " no encontrado");
     }
 
     /**
@@ -211,8 +221,10 @@ public class Empleado {
         for (Producto p : catalogo) {
             if (p.getId() == idProducto) {
                 p.eliminarEtiqueta(etiqueta);
+                return;
             }
         }
+        System.out.println("Producto con ID " + idProducto + " no encontrado");
     }
 
     /**
@@ -240,8 +252,10 @@ public class Empleado {
         for (Producto p : catalogo) {
             if (p.getId() == idProducto) {
                 p.actualizarInventario(p.getInventario() + cantidad);
+                return;
             }
         }
+        System.out.println("Producto con ID " + idProducto + " no encontrado");
     }
 
     /**
@@ -266,14 +280,17 @@ public class Empleado {
      * @param pedidos Lista de pedidos en el sistema.
      */
     public void actualizarEstadoPedido(int idPedido, String nuevoEstado, ArrayList<Pedido> pedidos) {
-        if (nuevoEstado == null){
-            throw new IllegalArgumentException("El nuevo estado no puede ser null");
+        if (nuevoEstado == null) {
+            System.out.println("El nuevo estado no puede ser nulo");
+            return;
         }
         for (Pedido p : pedidos) {
             if (p.getId() == idPedido) {
                 p.setEstado(nuevoEstado);
+                return;
             }
         }
+        System.out.println("Pedido con ID " + idPedido + " no encontrado");
     }
 
     /**
@@ -285,8 +302,10 @@ public class Empleado {
         for (Pedido p : pedidos) {
             if (p.getId() == idPedido) {
                 p.setEstado("Cancelado");
+                return;
             }
         }
+        System.out.println("Pedido con ID " + idPedido + " no encontrado");
     }
 
     /**

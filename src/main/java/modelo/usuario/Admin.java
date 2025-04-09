@@ -32,11 +32,13 @@ public class Admin extends Empleado {
      */
     public void crearEtiqueta(String nombreEtiqueta, ArrayList<Etiqueta> etiquetas) {
         if (nombreEtiqueta == null || nombreEtiqueta.isEmpty()){
-            throw new IllegalArgumentException("El nombre no puede ser null o vacia");
+            System.out.println("El nombre de la etiqueta no puede ser nulo o vacío");
+            return;
         }
         for (Etiqueta e : etiquetas) {
             if (e.getNombre().equalsIgnoreCase(nombreEtiqueta)) {
-                throw new IllegalArgumentException("La etiqueta " + nombreEtiqueta + " ya existe");
+                System.out.println("La etiqueta " + nombreEtiqueta + " ya existe");
+                return;
             }
         }
         int nuevoId = etiquetas.size() + 1;
@@ -50,7 +52,10 @@ public class Admin extends Empleado {
      * @param etiquetas Lista de etiquetas en el sistema.
      */
     public void eliminarEtiqueta(int idEtiqueta, List<Etiqueta> etiquetas) {
-        etiquetas.removeIf(e -> e.getId() == idEtiqueta);
+        boolean removed = etiquetas.removeIf(e -> e.getId() == idEtiqueta);
+        if (!removed) {
+            System.out.println("Etiqueta con ID " + idEtiqueta + " no encontrada");
+        }
     }
 
     /**
@@ -72,11 +77,13 @@ public class Admin extends Empleado {
      */
     public Empleado registrarEmpleado(String nombre, String usuario, String contraseña, List<Empleado> empleados) {
         if (nombre == null || nombre.isEmpty() || contraseña.isEmpty() || usuario.isEmpty()){
-            throw new IllegalArgumentException("No debe recibir parametros vacios");
+            System.out.println("Nombre, usuario y contraseña no pueden ser nulos o vacíos");
+            return null;
         }
         for (Empleado e : empleados) {
             if (e.getUsuario().equals(usuario)) {
-                throw new IllegalArgumentException("El usuario " + usuario + " ya existe");
+                System.out.println("El usuario " + usuario + " ya existe");
+                return null;
             }
         }
         int nuevoId = empleados.size() + 1;
@@ -91,9 +98,10 @@ public class Admin extends Empleado {
      * @param empleados Lista de empleados en el sistema.
      */
     public void eliminarCuentaEmpleado(int idEmpleado, ArrayList<Empleado> empleados) {
-        Empleado emp = empleados.stream().filter(p -> p.getId() == idEmpleado).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Empleado no encontrado"));
-        empleados.remove(emp);
+        boolean removed = empleados.removeIf(e -> e.getId() == idEmpleado);
+        if (!removed) {
+            System.out.println("Empleado con ID " + idEmpleado + " no encontrado");
+        }
     }
 
     /**
@@ -111,6 +119,7 @@ public class Admin extends Empleado {
                 e.setUsuario(nuevoUsuario);
             }
         }
+        System.out.println("Empleado con ID " + idEmpleado + " no encontrado");
     }
 
     /**
@@ -146,7 +155,8 @@ public class Admin extends Empleado {
      */
     public Direccion agregarPuntoEntrega(String calle, String ciudad, List<Direccion> puntosEntrega) {
         if (calle == null || calle.isEmpty() || ciudad == null || ciudad.isEmpty()) {
-            throw new IllegalArgumentException("Calle y ciudad no pueden ser null o vacíos");
+            System.out.println("Calle y ciudad no pueden ser nulos o vacíos");
+            return null;
         }
         int nuevoId = puntosEntrega.size() + 1;
         Direccion punto = new Direccion(nuevoId, calle, ciudad, true);
@@ -169,6 +179,7 @@ public class Admin extends Empleado {
                 d.setCiudad(ciudad);
             }
         }
+        System.out.println("Punto de entrega con ID " + idPunto + " no encontrado");
     }
 
     /**
@@ -177,7 +188,10 @@ public class Admin extends Empleado {
      * @param puntosEntrega Lista de puntos de entrega en el sistema.
      */
     public void eliminarPuntoEntrega(int idPunto, List<Direccion> puntosEntrega) {
-        puntosEntrega.removeIf(d -> d.getId() == idPunto);
+        boolean removed = puntosEntrega.removeIf(d -> d.getId() == idPunto);
+        if (!removed) {
+            System.out.println("Punto de entrega con ID " + idPunto + " no encontrado");
+        }
     }
 
     /**
