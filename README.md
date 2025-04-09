@@ -56,7 +56,7 @@ Para instalar y ejecutar este proyecto, sigue estos pasos:
 
 ### Credenciales de prueba para usuario administrador
 
-- **Usuario:** Admin1
+- **Usuario:** admin1
 - **Contraseña:** admin123
 
 ## Ejecución de Pruebas Unitarias
