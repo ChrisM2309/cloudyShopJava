@@ -166,9 +166,6 @@ La implementación actual tiene ciertas características y limitaciones importan
 - **Persistencia de Datos**:  
   No se ha implementado persistencia en archivos ni bases de datos.
 
-- **Validación de Entradas**:  
-  La validación de entradas es básica. No se verifican IDs inexistentes ni se manejan adecuadamente entradas no numéricas cuando se esperan números, lo que puede causar errores.
-
 - **Herencia en Usuarios**:  
   La clase `Admin` hereda de `Empleado`, compartiendo funcionalidades comunes pero añadiendo permisos adicionales para tareas administrativas.
 
@@ -176,6 +173,5 @@ La implementación actual tiene ciertas características y limitaciones importan
   Las colecciones de datos (empleados, clientes, productos) se gestionan con `ArrayList`, lo que es práctico pero puede no ser eficiente para grandes volúmenes de datos.
 
 ### Mejoras a Futuro
-- Validación más robusta de entradas del usuario.  
 - Persistencia de datos (archivos o base de datos).  
 - Mejoras en la interfaz de consola (mensajes más detallados o formato visual).
