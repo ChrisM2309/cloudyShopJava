@@ -10,18 +10,31 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Clase de testeo unitario para Admin
+ * Clase de testeo unitario para {@link Admin}.
+ * Verifica el comportamiento de los métodos de la clase Admin, incluyendo gestión
+ * de empleados, etiquetas, inventario y puntos de entrega.
  */
 public class AdminTest {
+    /** Administrador utilizado en las pruebas */
     private Admin admin;
+    /** Lista de empleados para pruebas */
     private ArrayList<Empleado> empleados;
+    /** Lista de etiquetas para pruebas */
     private ArrayList<Etiqueta> etiquetas;
+    /** Catálogo de productos para pruebas */
     private ArrayList<Producto> catalogo;
+    /** Lista de pedidos para pruebas */
     private ArrayList<Pedido> pedidos;
+    /** Puntos de entrega para pruebas */
     private ArrayList<Direccion> puntosEntrega;
 
+    /**
+     * Configura el entorno de prueba antes de cada test.
+     * Inicializa el admin, empleados, etiquetas, catálogo, pedidos y puntos de entrega.
+     */
     @BeforeEach
     void setUp() {
         admin = new Admin(1, "Juan Admin", "admin1", "admin1@empresa.com", "admin123");
@@ -40,7 +53,10 @@ public class AdminTest {
         puntosEntrega.add(new Direccion(1, "Punto Central", "Ciudad A", true));
     }
 
-    // Pruebas de Empleados
+    /**
+     * Prueba el método {@link Admin#registrarEmpleado(String, String, String, List)}.
+     * Verifica el registro correcto de empleados y manejo de casos inválidos.
+     */
     @Test
     void registrarEmpleadoTest() {
         Empleado nuevoEmpleado = admin.registrarEmpleado("Ana Lucia", "empleado2", "emp123", empleados);
@@ -50,10 +66,14 @@ public class AdminTest {
         assertEquals("empleado2", nuevoEmpleado.getUsuario(), "El usuario debe coincidir");
         // Usuario duplicado
         assertThrows(IllegalArgumentException.class, () -> admin.registrarEmpleado("Otro", "empleado2", "otro123", empleados), "Debe fallar con usuario duplicado");
-        // Manejo de vacios
+        // Manejo de vacios 
         assertThrows(IllegalArgumentException.class, () -> admin.registrarEmpleado("", "emp2", "pass", empleados), "Debe fallar con nombre vacío");
         assertThrows(IllegalArgumentException.class, () -> admin.registrarEmpleado(null, "emp3", "pass", empleados), "Debe fallar con nombre null");    }
 
+    /**
+     * Prueba el método {@link Admin#eliminarCuentaEmpleado(int, ArrayList)}.
+     * Verifica la eliminación de cuentas de empleados.
+     */
     @Test
     void eliminarCuentaEmpleadoTest() {
         Empleado empleado = new Empleado(1, "Ana Lucia", "empleado1", "ana@empresa.com", "emp123");
@@ -64,6 +84,11 @@ public class AdminTest {
         // Debe fallar si no existe
         assertThrows(IllegalArgumentException.class, () -> admin.eliminarCuentaEmpleado(99, empleados), "Debe fallar si el empleado no existe");
     }
+
+    /**
+     * Prueba el método {@link Admin#editarInformacionEmpleado(int, ArrayList, String, String, String)}.
+     * Verifica la actualización de información de empleados.
+     */
     @Test
     void editarInformacionEmpleadoTest() {
         admin.editarInformacionEmpleado(1, empleados, "Ana Actualizada", "anaActualizada", "nuevaPass");
@@ -75,7 +100,10 @@ public class AdminTest {
     }
 
 
-    // Pruebas de manejo de etiquetas
+    /**
+     * Prueba el método {@link Admin#crearEtiqueta(String, ArrayList)}.
+     * Verifica la creación de etiquetas y manejo de casos inválidos.
+     */
     @Test
     void crearEtiquetaTest() {
         admin.crearEtiqueta("Accesorios", etiquetas);
@@ -90,6 +118,10 @@ public class AdminTest {
         assertThrows(IllegalArgumentException.class, () -> admin.crearEtiqueta(null, etiquetas), "Debe fallar con nombre null");
     }
 
+    /**
+     * Prueba el método {@link Admin#eliminarEtiqueta(int, List)}.
+     * Verifica la eliminación de etiquetas.
+     */
     @Test
     void eliminarEtiquetaTest() {
         admin.eliminarEtiqueta(1, etiquetas);
@@ -98,7 +130,10 @@ public class AdminTest {
         assertDoesNotThrow(() -> admin.eliminarEtiqueta(99, etiquetas), "No debe fallar si la etiqueta no existe");
     }
 
-    // Prueba de inventario
+    /**
+     * Prueba el método {@link Admin#conocerInventario(List)}.
+     * Verifica la consulta del inventario de productos.
+     */
     @Test
     void conocerInventarioTest() {
         ArrayList<Producto> inventario = admin.conocerInventario(catalogo);
@@ -106,7 +141,10 @@ public class AdminTest {
         assertEquals("Laptop", inventario.get(0).getNombre(), "El producto debe coincidir");
     }
 
-    // Prueba de puntos de entrega
+    /**
+     * Prueba el método {@link Admin#agregarPuntoEntrega(String, String, List)}.
+     * Verifica la creación de puntos de entrega y manejo de casos inválidos.
+     */
     @Test
     void agregarPuntoEntregaTest() {
         // Agregar punto de entrega
@@ -121,6 +159,10 @@ public class AdminTest {
         assertThrows(IllegalArgumentException.class, () -> admin.agregarPuntoEntrega("Calle", "", puntosEntrega), "Debe fallar con ciudad vacía");
     }
 
+    /**
+     * Prueba el método {@link Admin#editarPuntoEntrega(int, String, String, String, List)}.
+     * Verifica la edición de puntos de entrega.
+     */
     @Test
     void editarPuntoEntregaTest() {
         admin.editarPuntoEntrega(1, "Calle Editada", "Ciudad Editada", "12345", puntosEntrega);
@@ -131,6 +173,10 @@ public class AdminTest {
         assertDoesNotThrow(() -> admin.editarPuntoEntrega(99, "Calle", "Ciudad", "12345", puntosEntrega), "No debe fallar si el punto no existe");
     }
 
+    /**
+     * Prueba el método {@link Admin#eliminarPuntoEntrega(int, List)}.
+     * Verifica la eliminación de puntos de entrega.
+     */
     @Test
     void eliminarPuntoEntregaTest() {
         admin.eliminarPuntoEntrega(1, puntosEntrega);

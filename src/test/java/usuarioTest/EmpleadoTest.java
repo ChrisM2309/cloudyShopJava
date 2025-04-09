@@ -11,16 +11,28 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
 /**
- * Clase de testeo unitario para Empleado
+ * Clase de testeo unitario para {@link Empleado}.
+ * Verifica el comportamiento de los métodos de la clase Empleado, incluyendo autenticación,
+ * gestión de productos, pedidos y operaciones de inventario.
  */
 public class EmpleadoTest {
+    /** Empleado utilizado en las pruebas */
     private Empleado empleado;
+    /** Catálogo de productos para pruebas */
     private ArrayList<Producto> catalogo;
+    /** Lista de pedidos para pruebas */
     private ArrayList<Pedido> pedidos;
+    /** Productos de prueba */
     private Producto producto1, producto2;
+    /** Pedidos de prueba */
     private Pedido pedido1, pedido2;
+    /** Etiqueta de prueba */
     private Etiqueta etiqueta1;
 
+    /**
+     * Configura el entorno de prueba antes de cada test.
+     * Inicializa el empleado, catálogo, pedidos y productos con datos de prueba.
+     */
     @BeforeEach
     void setUp() {
         empleado = new Empleado(1, "Ana Lucia", "empleado1", "ana@empresa.com", "emp123");
@@ -43,6 +55,10 @@ public class EmpleadoTest {
         etiqueta1 = new Etiqueta(1, "Electrónica");
     }
 
+    /**
+     * Prueba el método {@link Empleado#iniciarSesion(String, String)}.
+     * Verifica el inicio de sesión con credenciales correctas e incorrectas.
+     */
     @Test
     void iniciarSesionTest() {
         // Correcto
@@ -55,11 +71,19 @@ public class EmpleadoTest {
         assertThrows(IllegalArgumentException.class, () -> empleado.iniciarSesion("empleado1", null), "Debe fallar con contraseña nula");
     }
 
+    /**
+     * Prueba el método {@link Empleado#cerrarSesion()}.
+     * Verifica que no lance excepciones al cerrar sesión.
+     */
     @Test
     void cerrarSesionTest() {
         assertDoesNotThrow(() -> empleado.cerrarSesion(), "Cerrar sesión no debe lanzar excepciones");
     }
 
+    /**
+     * Prueba el método {@link Empleado#consultarProductosCatalogo(ArrayList)}.
+     * Verifica que devuelva todos los productos del catálogo.
+     */
     @Test
     void consultarProductosCatalogoTest() {
         ArrayList<Producto> resultado = empleado.consultarProductosCatalogo(catalogo);
@@ -68,6 +92,10 @@ public class EmpleadoTest {
         assertTrue(resultado.contains(producto2), "Debe contener el producto 2");
     }
 
+    /**
+     * Prueba el método {@link Empleado#consultarProductosCatalogo(ArrayList)}.
+     * Verifica que devuelva todos los productos del catálogo.
+     */
     @Test
     void agregarProductoCatalogoTest() {
         // Agregar el producto
@@ -83,6 +111,10 @@ public class EmpleadoTest {
         assertThrows(IllegalArgumentException.class, () -> empleado.agregarProductoCatalogo(null, catalogo), "Debe fallar con producto nulo");
     }
 
+    /**
+     * Prueba el método {@link Empleado#editarProductoCatalogo(int, ArrayList, String, String, double, int)}.
+     * Verifica la actualización de productos en el catálogo.
+     */
     @Test
     void editarProductoCatalogoTest() {
         Producto producto = new Producto(1, "Laptop", "Laptop de alta gama", 1000.0, 10);
@@ -98,6 +130,10 @@ public class EmpleadoTest {
         assertThrows(IllegalArgumentException.class, () -> empleado.editarProductoCatalogo(1, catalogo, "", "Desc", 100.0, 10), "Debe fallar con nombre vacío");
     }
 
+    /**
+     * Prueba el método {@link Empleado#agregarEtiquetaProducto(int, Etiqueta, ArrayList)}.
+     * Verifica la adición de etiquetas a productos.
+     */
     @Test
     void agregarEtiquetaProductoTest() {
         empleado.agregarEtiquetaProducto(1, etiqueta1, catalogo);
@@ -106,6 +142,10 @@ public class EmpleadoTest {
         assertDoesNotThrow(() -> empleado.agregarEtiquetaProducto(99, etiqueta1, catalogo), "No debe lanzar excepción si el producto no existe");
     }
 
+    /**
+     * Prueba el método {@link Empleado#eliminarEtiquetaProducto(int, Etiqueta, ArrayList)}.
+     * Verifica la eliminación de etiquetas de productos.
+     */
     @Test
     void eliminarEtiquetaProductoTest() {
         producto1.agregarEtiqueta(etiqueta1);
@@ -115,6 +155,10 @@ public class EmpleadoTest {
         assertDoesNotThrow(() -> empleado.eliminarEtiquetaProducto(99, etiqueta1, catalogo), "No debe lanzar excepción si el producto no existe");
     }
 
+    /**
+     * Prueba el método {@link Empleado#consultarInventarioProducto(int, ArrayList)}.
+     * Verifica la consulta de inventario de productos.
+     */
     @Test
     void consultarInventarioProductoTest() {
         int inventario = empleado.consultarInventarioProducto(1, catalogo);
@@ -124,6 +168,10 @@ public class EmpleadoTest {
         assertEquals(-1, inventarioNoExistente, "Debe devolver -1 si el producto no existe");
     }
 
+    /**
+     * Prueba el método {@link Empleado#registrarEntradaInventario(int, int, ArrayList)}.
+     * Verifica el registro de entradas de inventario.
+     */
     @Test
     void registrarEntradaInventarioTest() {
         empleado.registrarEntradaInventario(1, 5, catalogo);
@@ -132,13 +180,21 @@ public class EmpleadoTest {
         assertDoesNotThrow(() -> empleado.registrarEntradaInventario(99, 10, catalogo), "No debe lanzar excepción si el producto no existe");
     }
 
+    /**
+     * Prueba el método {@link Empleado#recibirAlertasInventarioBajo(ArrayList)}.
+     * Verifica que devuelva productos con inventario bajo.
+     */
     @Test
     void recibirAlertasInventarioBajoTest() {
         ArrayList<Producto> alertas = empleado.recibirAlertasInventarioBajo(catalogo);
         assertEquals(1, alertas.size(), "Debe haber un producto con inventario bajo");
         assertEquals("Mouse", alertas.get(0).getNombre(), "El producto con inventario bajo debe ser Mouse");
     }
-    // Pruebas para métodos relacionados con pedidos
+
+    /**
+     * Prueba el método {@link Empleado#actualizarEstadoPedido(int, String, ArrayList)}.
+     * Verifica la actualización del estado de pedidos.
+     */
     @Test
     void actualizarEstadoPedidoTest() {
         empleado.actualizarEstadoPedido(1, "En proceso", pedidos);
@@ -149,6 +205,10 @@ public class EmpleadoTest {
         assertThrows(IllegalArgumentException.class, () -> empleado.actualizarEstadoPedido(1, null, pedidos), "Debe fallar con estado nulo");
     }
 
+    /**
+     * Prueba el método {@link Empleado#cancelarPedido(int, ArrayList)}.
+     * Verifica la cancelación de pedidos.
+     */
     @Test
     void cancelarPedidoTest() {
         empleado.cancelarPedido(1, pedidos);
@@ -157,6 +217,10 @@ public class EmpleadoTest {
         assertDoesNotThrow(() -> empleado.cancelarPedido(99, pedidos), "No debe lanzar excepción si el pedido no existe");
     }
 
+    /**
+     * Prueba el método {@link Empleado#verPedidosPendientes(ArrayList)}.
+     * Verifica que devuelva solo pedidos pendientes.
+     */
     @Test
     void verPedidosPendientesTest() {
         ArrayList<Pedido> pendientes = empleado.verPedidosPendientes(pedidos);
@@ -164,6 +228,10 @@ public class EmpleadoTest {
         assertEquals("Pendiente", pendientes.get(0).getEstado(), "El pedido debe estar pendiente");
     }
 
+    /**
+     * Prueba el método {@link Empleado#verificarEstadoPago(int, ArrayList)}.
+     * Verifica el estado de pago de los pedidos.
+     */
     @Test
     void verificarEstadoPagoTest() {
         assertFalse(empleado.verificarEstadoPago(1, pedidos), "El pedido 1 no está completado");
@@ -172,6 +240,10 @@ public class EmpleadoTest {
         assertFalse(empleado.verificarEstadoPago(99, pedidos), "Debe devolver false si el pedido no existe");
     }
 
+    /**
+     * Prueba el método {@link Empleado#consultarDireccionPedido(int, ArrayList)}.
+     * Verifica la consulta de direcciones de pedidos.
+     */
     @Test
     void consultarDireccionPedidoTest() {
         Direccion direccion = empleado.consultarDireccionPedido(1, pedidos);

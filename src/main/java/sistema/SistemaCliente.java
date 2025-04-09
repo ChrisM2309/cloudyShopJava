@@ -188,7 +188,7 @@ public class SistemaCliente {
                     System.out.print("ID del producto: ");
                     int idProductoConsulta = Integer.parseInt(sc.nextLine());
                     int cantidadDisponible = cliente.consultarInventarioProducto(idProductoConsulta, catalogo);
-                    System.out.println("Existen " +  cantidadDisponible + "unidades disponibles");
+                    System.out.println("Existen " +  cantidadDisponible + " unidades disponibles");
                     break;
 
                 case "14": // Comprar producto (agregar al pedido)

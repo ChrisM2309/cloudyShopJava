@@ -1,5 +1,3 @@
-package sistema;
-
 import modelo.pedido.Direccion;
 import modelo.pedido.Pago;
 import modelo.pedido.Pedido;
@@ -8,6 +6,10 @@ import modelo.producto.Producto;
 import modelo.usuario.Admin;
 import modelo.usuario.Cliente;
 import modelo.usuario.Empleado;
+import sistema.SistemaAdmin;
+import sistema.SistemaCliente;
+import sistema.SistemaEmpleado;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -28,7 +30,7 @@ public class Main {
     private static Scanner sc = new Scanner(System.in);
 
     /**
-     * Constructor por defecto de la clase sistema.Main.
+     * Constructor por defecto de la clase Main.
      * Inicializa la clase sin realizar operaciones adicionales.
      */
     public Main() {
@@ -44,8 +46,8 @@ public class Main {
      * @param args Argumentos de la línea de comandos (no utilizados).
      */
     public static void main(String[] args) {
+        inicializarDatos();
         while (true) {
-            inicializarDatos();
             System.out.println("\nBienvenido al sistema de CloudyShop");
             System.out.println("1. Iniciar sesión como administrador");
             System.out.println("2. Iniciar sesión como empleado");
@@ -84,30 +86,67 @@ public class Main {
      * puntos de entrega y pedidos para simular un entorno con datos preexistentes.
      */
     public static void inicializarDatos() {
+        // 1. INICIALIZACIÓN DE USUARIOS
+
+        // Crear administrador
         admins.add(new Admin(1, "Juan Admin", "admin1", "admin1@empresa.com", "admin123"));
+
+        // Crear empleado
         empleados.add(new Empleado(1, "Ana Lucia", "empleado1", "ana@empresa.com", "emp123"));
+
+        // Crear cliente con datos básicos
         clientes.add(new Cliente(1, "María Jose", "cliente1", "maria@cliente.com", "cli123", "555-1234"));
+
+        // 2. CONFIGURACIÓN DE ETIQUETAS
+
+        // Agregar etiquetas para categorizar productos
         etiquetas.add(new Etiqueta(1, "Electrónica"));
         etiquetas.add(new Etiqueta(2, "Hogar"));
+
+        // 3. CONFIGURACIÓN DEL CATÁLOGO DE PRODUCTOS
+
+        // Producto 1: Laptop (Electrónica)
         catalogo.add(new Producto(1, "Laptop", "Laptop de alta gama", 1000.0, 10));
-        catalogo.getLast().agregarEtiqueta(etiquetas.get(0));
+        catalogo.getLast().agregarEtiqueta(etiquetas.get(0)); // Asignar etiqueta "Electrónica"
+
+        // Producto 2: Silla (Hogar)
         catalogo.add(new Producto(2, "Silla", "Silla ergonómica", 150.0, 20));
-        catalogo.getLast().agregarEtiqueta(etiquetas.getLast());
+        catalogo.getLast().agregarEtiqueta(etiquetas.getLast()); // Asignar etiqueta "Hogar"
+
+        // Producto 3: Teléfono (Electrónica)
         catalogo.add(new Producto(3, "Teléfono", "Smartphone moderno", 500.0, 15));
-        catalogo.getLast().agregarEtiqueta(etiquetas.get(0));
+        catalogo.getLast().agregarEtiqueta(etiquetas.get(0)); // Asignar etiqueta "Electrónica"
+
+        // 4. CONFIGURACIÓN DEL CLIENTE
+
+        // Agregar dirección al cliente
         clientes.get(0).agregarNuevaDireccion("Calle 123", "San Salvador");
+
+        // Agregar método de pago al cliente
         Pago pago1 = new Pago(clientes.get(0).getMetodosPago().size() + 1, "Tarjeta", "123", "Activo");
         clientes.get(0).agregarMetodoPagoSistema(pago1);
+
+        // CONFIGURACIÓN DE PUNTOS DE ENTREGA
+
+        // Agregar punto de entrega predeterminado
         puntosEntrega.add(new Direccion(1, "Punto Central", "Ciudad C", true));
+
+        // CREACIÓN DE PEDIDOS DE EJEMPLO
+
+        // Pedido 1
         clientes.get(0).crearPedido(pedidos);
-        clientes.get(0).agregarProductoPedido(0, 1, 1, catalogo);
-        clientes.get(0).agregarProductoPedido(2, 1, 1, catalogo);
-        clientes.get(0).agregarDireccionEntrega(1, 1);
-        clientes.get(0).agregarMetodoPago(1, 1);
+        clientes.get(0).agregarProductoPedido(1, 1, 1, catalogo); // Agregar Laptop
+        clientes.get(0).agregarProductoPedido(2, 1, 1, catalogo); // Agregar Teléfono
+        clientes.get(0).agregarDireccionEntrega(1, 1); // Asignar dirección
+        clientes.get(0).agregarMetodoPago(1, 1); // Asignar método de pago
+
+        // Pedido 2
         clientes.get(0).crearPedido(pedidos);
-        clientes.get(0).agregarProductoPedido(1, 1, 2, catalogo);
-        clientes.get(0).agregarDireccionEntrega(1, 2);
-        clientes.get(0).agregarMetodoPago(1, 2);
+        clientes.get(0).agregarProductoPedido(1, 1, 2, catalogo); // Agregar Laptop
+        clientes.get(0).agregarDireccionEntrega(1, 2); // Asignar dirección
+        clientes.get(0).agregarMetodoPago(1, 2); // Asignar método de pago
+
+        // Actualizar estado del segundo pedido a "Completado"
         empleados.get(0).actualizarEstadoPedido(2, "Completado", pedidos);
     }
 

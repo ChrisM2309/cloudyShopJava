@@ -162,7 +162,8 @@ public class Cliente {
      */
     public boolean iniciarSesion(String usuario, String password) {
         if (usuario == null || password == null) {
-            throw new IllegalArgumentException("Usuario o contraseña no pueden ser null");
+            System.out.println("Usuario o contraseña no pueden ser nulos");
+            return false;
         }
         return this.usuario.equals(usuario) && this.password.equals(password);
     }
@@ -182,13 +183,16 @@ public class Cliente {
      */
     public void editarDatos(String nuevoNombre, String nuevoCorreo, String nuevoTelefono) {
         if (nuevoNombre == null || nuevoNombre.isEmpty()) {
-            throw new IllegalArgumentException("Nombre no puede ser null o vacío");
+            System.out.println("Nombre no puede ser nulo o vacío");
+            return;
         }
         if (nuevoCorreo == null || nuevoCorreo.isEmpty()) {
-            throw new IllegalArgumentException("Correo no puede ser null o vacío");
+            System.out.println("Correo no puede ser nulo o vacío");
+            return;
         }
         if (nuevoTelefono == null || nuevoTelefono.isEmpty()) {
-            throw new IllegalArgumentException("Teléfono no puede ser null o vacío");
+            System.out.println("Teléfono no puede ser nulo o vacío");
+            return;
         }
         this.nombre = nuevoNombre;
         this.correo = nuevoCorreo;
@@ -202,14 +206,17 @@ public class Cliente {
     public void eliminarCuenta(ArrayList<Cliente> clientes) {
         System.out.println("Estas seguro de eliminar?\nIngresa tu contraseña para confirmar.");
         Scanner scanner = new Scanner(System.in);
-        String opcion = scanner.nextLine();
-        if (opcion.equals(password)) {
-            clientes.remove(this);
-        } else {
-            System.out.println("Proceso incorrecto.");
-            throw new IllegalArgumentException("Password incorrecta. No se puede eliminar la cuenta.");
+        String passwordInput = scanner.nextLine();
+        if (passwordInput == null) {
+            System.out.println("La contraseña no puede ser nula");
+            return;
         }
-        System.out.println("Cuenta eliminada exitosamente");
+        if (passwordInput.equals(password)) {
+            clientes.remove(this);
+            System.out.println("Cuenta eliminada exitosamente");
+        } else {
+            System.out.println("Contraseña incorrecta. No se puede eliminar la cuenta.");
+        }
         scanner.close();
     }
 
@@ -255,11 +262,32 @@ public class Cliente {
      * @param idPedido ID del pedido al que se agrega el producto.
      * @param catalogo Lista de productos en el catálogo.
      */
-    public void agregarProductoPedido(int idProducto, int cantidad, int idPedido, List<Producto> catalogo) {
-        Pedido pedido = pedidos.stream().filter(p -> p.getId() == idPedido).findFirst().orElseThrow(() -> new IllegalArgumentException("Pedido no encontrado"));
-        Producto producto = catalogo.stream().filter(p -> p.getId() == idProducto).findFirst().orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
-        if (producto.getInventario() < cantidad){
-            throw new IllegalArgumentException("Inventario insuficiente");
+    public void agregarProductoPedido(int idProducto, int cantidad, int idPedido, ArrayList<Producto> catalogo) {
+        Pedido pedido = null;
+        for (Pedido p : pedidos) {
+            if (p.getId() == idPedido) {
+                pedido = p;
+                break;
+            }
+        }
+        if (pedido == null) {
+            System.out.println("Pedido no encontrado");
+            return;
+        }
+        Producto producto = null;
+        for (Producto p : catalogo) {
+            if (p.getId() == idProducto) {
+                producto = p;
+                break;
+            }
+        }
+        if (producto == null) {
+            System.out.println("Producto no encontrado");
+            return;
+        }
+        if (producto.getInventario() < cantidad) {
+            System.out.println("Inventario insuficiente");
+            return;
         }
         pedido.getProductos().add(producto);
         producto.actualizarInventario(producto.getInventario() - cantidad);
@@ -303,7 +331,8 @@ public class Cliente {
      */
     public Pedido crearPedido(List<Pedido> pedidosSistema) {
         if (pedidosSistema == null){
-            throw new IllegalArgumentException("Debe haber una lista de pedidos");
+            System.out.println("La lista de pedidos no puede ser nula");
+            return null;
         }
         int nuevoId = pedidosSistema.size() + 1;
         Pedido pedido = new Pedido(nuevoId, new ArrayList<>(), null, null, "Pendiente", this.id);
@@ -323,11 +352,14 @@ public class Cliente {
                 for (Direccion d : direcciones) {
                     if (d.getId() == idDireccion) {
                         p.setDireccion(d);
-                        break;
+                        return;
                     }
                 }
+                System.out.println("Dirección no encontrada");
+                return;
             }
         }
+        System.out.println("Pedido no encontrado");
     }
 
     /**
@@ -341,11 +373,14 @@ public class Cliente {
                 for (Pago curPago : metodosPago) {
                     if (curPago.getId() == idPago) {
                         p.setMetodoPago(curPago);
-                        break;
+                        return;
                     }
                 }
+                System.out.println("Método de pago no encontrado");
+                return;
             }
         }
+        System.out.println("Pedido no encontrado");
     }
 
     /**
@@ -364,8 +399,10 @@ public class Cliente {
         for (Pedido p : pedidos) {
             if (p.getId() == idPedido) {
                 p.setEstado("Cancelado");
+                return;
             }
         }
+        System.out.println("Pedido no encontrado");
     }
 
     /**
@@ -382,7 +419,11 @@ public class Cliente {
      * @param nuevosDatos Nuevos datos para el método de pago.
      */
     public void editarMetodoPago(int idPago, Pago nuevosDatos) {
-        metodosPago.get(idPago).setDatos(nuevosDatos.getDatos());
+        if (idPago >= 0 && idPago < metodosPago.size()) {
+            metodosPago.get(idPago).setDatos(nuevosDatos.getDatos());
+        } else {
+            System.out.println("Id de método de pago inválido");
+        }
     }
 
     /**
@@ -390,8 +431,11 @@ public class Cliente {
      * @param idPago Índice del método de pago a eliminar en la lista.
      */
     public void eliminarMetodoPago(int idPago) {
-        metodosPago.get(idPago).setEstado("Eliminado");
-    }
+        if (idPago >= 0 && idPago < metodosPago.size()) {
+            metodosPago.get(idPago).setEstado("Eliminado");
+        } else {
+            System.out.println("Id de método de pago inválido");
+        }    }
 
     /**
      * Devuelve la lista de métodos de pago almacenados.
@@ -430,8 +474,10 @@ public class Cliente {
             if (d.getId() == idDireccion) {
                 d.setCalle(calle);
                 d.setCiudad(ciudad);
+                return;
             }
         }
+        System.out.println("Dirección no encontrada");
     }
 
     /**
@@ -442,8 +488,10 @@ public class Cliente {
         for (Direccion d : direcciones) {
             if (d.getId() == idDireccion) {
                 direcciones.remove(d);
+                return;
             }
         }
+        System.out.println("Dirección no encontrada");
     }
 
     /**
